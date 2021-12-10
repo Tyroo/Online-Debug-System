@@ -20,7 +20,7 @@ HEADERS += \
     Model/Main/inc/MainData.h
 
 FORMS += \
-    Adorn/Main/MainView.ui
+    Adorn/UI/Main/MainView.ui
 
 CONFIG += lrelease
 CONFIG += embed_translations
@@ -32,3 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Language/EN/Online-Debug-System_en_AS.ts
+
+RESOURCES += \
+    Adorn/QSS/Style.qrc
