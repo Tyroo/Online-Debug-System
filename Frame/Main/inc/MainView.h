@@ -16,14 +16,14 @@ class MainView : public QMainWindow, public MainSlot
 public:
 
     /*
-    * @说明：主视图构造函数
+    * @说明：主视图类构造函数
     * @参数：parent，父Qwidget对象，主视图默认为NULL
     * @返回值：无
     */
     MainView(QWidget *parent = NULL);
 
     /*
-    * @说明：主视图析构函数
+    * @说明：主视图类析构函数
     * @参数：无
     * @返回值：无
     */
