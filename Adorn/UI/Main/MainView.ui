@@ -31,23 +31,23 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QRadioButton" name="radioButton_4">
        <property name="text">
         <string>红色</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QRadioButton" name="radioButton_3">
        <property name="text">
-        <string>蓝色</string>
+        <string>绿色</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_3">
+      <widget class="QRadioButton" name="radioButton">
        <property name="text">
-        <string>绿色</string>
+        <string>蓝色</string>
        </property>
       </widget>
      </item>

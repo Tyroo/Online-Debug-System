@@ -2,14 +2,14 @@
 #define MAINVIEW_H
 
 #include <QMainWindow>
-#include <string>
 
 #include "./Event/Main/inc/MainSlot.h"
 
-#define MAIN_QSS_FILEPATH       ((char*)":/Main/MainView.qss")   // QSS文件路径
+
+#define MAIN_QSS_FILEPATH   ((char*)":/Main/MainView.qss")   // QSS文件路径
 
 
-class MainView : public QMainWindow, public MainSlot
+class MainView : public QMainWindow
 {
     Q_OBJECT
 
@@ -20,7 +20,7 @@ public:
     * @参数：parent，父Qwidget对象，主视图默认为NULL
     * @返回值：无
     */
-    MainView(QWidget *parent = NULL);
+    MainView(QWidget *parent = nullptr);
 
     /*
     * @说明：主视图类析构函数
@@ -30,6 +30,8 @@ public:
     ~MainView();
 
 private:
+
+    MainSlot* slot; // 声明一个槽对象
 
     /*
     * @说明：加载控件UI和QSS样式
