@@ -1,5 +1,4 @@
 #include "./Event/Main/inc/MainSlot.h"
-#include "qnamespace.h"
 
 
 /*------------------------------------------------------------
@@ -34,6 +33,8 @@ void MainSlot::eSlotFuncRegister()
                      this, SLOT(eSelectBlueColor(bool)));
     QObject::connect(ui->radioButton_3, SIGNAL(clicked(bool)),  // 连接绿色单选框按钮槽
                      this, SLOT(eSelectGreenColor(bool)));
+    QObject::connect(ui->pushButton, SIGNAL(clicked()),         // 连接登录按钮槽
+                     this, SLOT(eClickUserLogin()));
 }
 
 // 红色单选框选中事件函数
@@ -62,4 +63,10 @@ void MainSlot::eSelectBlueColor(bool checked)
     {
         ui->textEdit->setText(ui->radioButton->text());
     }
+}
+
+// 登录按钮点击事件
+void MainSlot::eClickUserLogin()
+{
+    login_view->show();
 }

@@ -2,10 +2,8 @@
 #define MAINSLOT_H
 
 #include <QObject>
-#include <QMainWindow>
-#include "./Model/Main/inc/MainData.h"
 
-namespace MainModel { class MainData; }
+#include "./Model/Main/inc/MainData.h"
 
 
 class MainSlot: public QObject, public MainData
@@ -57,6 +55,13 @@ private slots:
     * @返回值：无
     */
     void eSelectBlueColor(bool checked);
+
+    /*
+    * @说明：点击用户登录
+    * @参数：无
+    * @返回值：无
+    */
+    void eClickUserLogin();
 };
 
 

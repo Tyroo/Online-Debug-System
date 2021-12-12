@@ -1,32 +1,31 @@
-#include "./Model/Main/inc/MainData.h"
+#include "./Model/Login/inc/LoginData.h"
 
 
 /*------------------------------------------------------------
 @作用：主数据类默认方法
-@包含：MainData()、~MainData()
+@包含：LoginData()、~LoginData()
 --------------------------------------------------------------*/
 
 // 主数据类构造方法
-MainData::MainData()
+LoginData::LoginData()
 {
-    this->ui = new Ui::MainView;    // 创建主视图UI对象
-
-    this->login_view = new LoginView;   // 创建登录视图对象
+    this->ui = new Ui::LoginView;    // 创建主视图UI对象
 }
 
 // 主数据类析构方法
-MainData::~MainData()
+LoginData::~LoginData()
 {
     // pass
 }
 
 /*------------------------------------------------------------
 @作用：主数据类自定义方法
-@包含：mInitMainData()
+@包含：mInitLoginData()
 --------------------------------------------------------------*/
 
 // 初始化主数据
-void MainData::mInitMainData()
+void LoginData::mInitData()
 {
     // pass
 }
+

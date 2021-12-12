@@ -1,15 +1,14 @@
-#ifndef MAINVIEW_H
-#define MAINVIEW_H
+#ifndef LOGINVIEW_H
+#define LOGINVIEW_H
 
-#include <QMainWindow>
+#include <QDialog>
 
-#include "./Event/Main/inc/MainSlot.h"
+#include "./Event/Login/inc/LoginSlot.h"
+
+#define LOGIN_QSS_FILEPATH   ((char*)":/Main/LoginView.qss")   // QSS文件路径
 
 
-#define MAIN_QSS_FILEPATH   ((char*)":/Main/MainView.qss")   // QSS文件路径
-
-
-class MainView : public QMainWindow
+class LoginView : public QDialog
 {
     Q_OBJECT
 
@@ -20,18 +19,18 @@ public:
     * @参数：parent，父Qwidget对象，主视图默认为NULL
     * @返回值：无
     */
-    MainView(QWidget *parent = nullptr);
+    LoginView(QWidget *parent = nullptr);
 
     /*
     * @说明：主视图类析构函数
     * @参数：无
     * @返回值：无
     */
-    ~MainView();
+    ~LoginView();
 
 private:
 
-    MainSlot*  slot;        // 声明一个槽对象
+    LoginSlot* slot; // 声明一个槽对象
 
     /*
     * @说明：加载控件UI和QSS样式
@@ -41,4 +40,5 @@ private:
     void fAddStyleAndUi(char qssPath[]);
 
 };
-#endif // MAINVIEW_H
+
+#endif // LoginView_H

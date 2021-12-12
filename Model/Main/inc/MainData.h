@@ -2,6 +2,7 @@
 #define MAINDATA_H
 
 #include "ui_MainView.h"
+#include "./Frame/Login/inc/LoginView.h"
 
 
 class MainData
@@ -11,6 +12,7 @@ public:
 
     Ui::MainView *ui;   // 声明一个主视图UI对象指针
 
+    LoginView *login_view;  // 声明一个登录视图对象
     /*
     * @说明：主数据类构造函数
     * @参数：无
@@ -34,7 +36,5 @@ private:
     */
     void mInitMainData(void);
 };
-
-namespace MainModel { class MainData; }
 
 #endif

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>Main/MainView.qss</file>
+        <file>Login/LoginView.qss</file>
     </qresource>
 </RCC>
