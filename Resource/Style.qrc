@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>QSS/Main/MainView.qss</file>
+        <file>QSS/Login/LoginView.qss</file>
+        <file>IMG/Login/login_code.jpg</file>
+    </qresource>
+</RCC>
