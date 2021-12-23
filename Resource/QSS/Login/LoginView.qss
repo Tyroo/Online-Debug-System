@@ -1,18 +1,24 @@
 QFrame#frame{
 background:rgb(190,190,190);
 color:red;
-border-radius:20px;
+border-radius:10px;
+border-width:0px;
 z-index:1;
 }
 
-QLabel#label{
+QLabel#label_2{
+border-radius:8px;
 background:rgb(255,0,0);
-border-radius:20px 20px 0 0;
-z-index:2;
 }
 
 QPushButton#pushButton_2{
+color:white;
+border:none;
+border-top-right-radius:10px;
+background:transparent;
+}
+
+QPushButton#pushButton{
 border-radius:20px;
 background:rgb(255,0,0);
-z-index:100;
 }
