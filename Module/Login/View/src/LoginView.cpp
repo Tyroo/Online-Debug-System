@@ -14,10 +14,10 @@ LoginView::LoginView(QWidget *parent) : QWidget(parent)
 
     this->fAddStyleAndUi(LOGIN_QSS_FILEPATH);   // 添加样式文件和UI文件
 
+    this->fSetLoginWindowStyle();
+    this->fSetLoginLabelStyle();
     this->fSetLoginLabelStyle();
     this->fSetLoginCodeImage();
-    this->setWindowFlag(Qt::FramelessWindowHint);
-    this->setAttribute(Qt::WA_TranslucentBackground, true);
 }
 
 // 主视图类析构方法，销毁主视图对象
@@ -44,9 +44,23 @@ void LoginView::fAddStyleAndUi(char* qssPath)
     setStyleSheet(file.readAll());  // 设置QSS样式
 }
 
+// 设置登录窗口样式
+void LoginView::fSetLoginWindowStyle()
+{
+    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setAttribute(Qt::WA_TranslucentBackground, true);
+    this->setAttribute(Qt::WA_ShowModal);
+}
+
 // 设置登录框Login Label控件样式
 void LoginView::fSetLoginLabelStyle()
 {
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
+    shadow->setOffset(2, 2);
+    shadow->setColor(QColor(120, 120, 120));
+    shadow->setBlurRadius(10);
+
+    ui->label_2->setGraphicsEffect(shadow);
 }
 
 
@@ -57,4 +71,15 @@ void LoginView::fSetLoginCodeImage()
 //    int width = 100;//最大宽度
 //    int height = 100;//最大高度
 //    slot->ui->label_2->setPixmap(QPixmap::fromImage(QImage(login_code_img).scaled(width,height,Qt::KeepAspectRatio)));
+}
+
+void LoginView::fSetLoginAndSignButton()
+{
+//    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
+//    shadow->setOffset(2, 2);
+//    shadow->setColor(QColor(120, 120, 120));
+//    shadow->setBlurRadius(20);
+
+//    ui->pushButton_3->setGraphicsEffect(shadow);
+//    ui->pushButton->setGraphicsEffect(shadow);
 }

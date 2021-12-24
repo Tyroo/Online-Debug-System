@@ -9,7 +9,8 @@
 // 主数据类构造方法
 LoginData::LoginData()
 {
-
+    this->username = "zjl";
+    this->password = "123";
 }
 
 // 主数据类析构方法
@@ -27,4 +28,16 @@ LoginData::~LoginData()
 void LoginData::mInitLoginData()
 {
     // pass
+}
+
+// 获取登录用户名
+QString& LoginData::mGetUsername()
+{
+    return (this->username);
+}
+
+// 获取登录密码
+QString& LoginData::mGetPassword()
+{
+    return (this->password);
 }

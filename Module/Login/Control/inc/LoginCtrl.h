@@ -1,7 +1,6 @@
 #ifndef LOGINCTRL_H
 #define LOGINCTRL_H
 
-#include <QMessageBox>
 
 #include "./Module/Login/View/inc/LoginView.h"
 

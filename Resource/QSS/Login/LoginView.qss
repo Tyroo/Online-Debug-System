@@ -1,24 +1,94 @@
+/* 设置登录窗口Frame的样式 */
 QFrame#frame{
-background:rgb(190,190,190);
+background:white;
 color:red;
 border-radius:10px;
-border-width:0px;
-z-index:1;
+border:1px solid red;
 }
 
+/* 设置头部二维码框样式 */
 QLabel#label_2{
-border-radius:8px;
-background:rgb(255,0,0);
+border-radius:50px;
+border-image:url(:/IMG/Login/login_top2.png);
 }
 
+/* 设置用户名/密码框右侧图标框样式 */
+QLabel#label,QLabel#label_3{
+border-bottom:2px solid red;
+background:transparent;
+}
+
+QLabel#label_4{
+border-image:url(:/IMG/Login/login_usr.png);
+border-image-slice:10;
+}
+
+QLabel#label_5{
+border-image:url(:/IMG/Login/login_pwd.png);
+border-image-slice:10;
+}
+
+
+/* 设置右上角关闭按钮样式 */
 QPushButton#pushButton_2{
-color:white;
-border:none;
+color:gray;
 border-top-right-radius:10px;
 background:transparent;
 }
 
+/* 设置用户名/密码输入框样式 */
+QLineEdit#lineEdit,QLineEdit#lineEdit_2{
+background:transparent;
+border:none;
+border-bottom:2px solid red;
+}
+
+/* 设置登录错误提示框样式 */
+QLabel#label_6{
+color:red;
+}
+
+/* 设置登录按钮样式 */
 QPushButton#pushButton{
 border-radius:20px;
-background:rgb(255,0,0);
+border:1px solid red;
+color:gray;
+outline:none;
+}
+
+/* 设置注册按钮样式 */
+QPushButton#pushButton_3{
+color:white;
+outline:none;
+background:red;
+border-radius:20px;
+border:1px solid red;
+}
+
+/* 忘记密码按钮样式 */
+QPushButton#pushButton_4{
+background:transparent;
+color:gray;
+}
+
+/* 设置登录按钮鼠标聚焦伪事件 */
+QPushButton#pushButton:hover{
+background:red;
+color:white;
+}
+
+/* 设置注册按钮鼠标聚焦伪事件 */
+QPushButton#pushButton_3:hover{
+background:rgb(230, 0, 0);
+}
+
+/* 设置右上角关闭按钮聚焦伪事件 */
+QPushButton#pushButton_2:hover{
+color:red;
+}
+
+/* 设置忘记密码按钮聚焦伪事件 */
+QPushButton#pushButton_4:hover{
+text-decoration:underline;
+color:black;
 }

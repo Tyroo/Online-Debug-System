@@ -37,25 +37,11 @@ public:
 private slots:
 
     /*
-    * @说明：红色单选按钮触发事件
+    * @说明：颜色选择单选按钮触发事件函数
     * @参数：无
     * @返回值：无
     */
-    void eSelectRedColor(bool checked);
-
-    /*
-    * @说明：绿色单选按钮触发事件
-    * @参数：无
-    * @返回值：无
-    */
-    void eSelectGreenColor(bool checked);
-
-    /*
-    * @说明：蓝色单选按钮触发事件
-    * @参数：无
-    * @返回值：无
-    */
-    void eSelectBlueColor(bool checked);
+    void eSelectColor(void);
 
     /*
     * @说明：点击用户登录

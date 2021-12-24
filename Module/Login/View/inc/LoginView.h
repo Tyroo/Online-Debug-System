@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QWidget>
+#include <QGraphicsDropShadowEffect>
 
 #include "ui_LoginView.h"
 #include "./Module/Login/Data/inc/LoginData.h"
@@ -43,6 +44,13 @@ private:
     void fAddStyleAndUi(char qssPath[]);
 
     /*
+    * @说明：设置窗口样式
+    * @参数：无
+    * @返回值：无
+    */
+    void fSetLoginWindowStyle(void);
+
+    /*
     * @说明：设置显示有‘Login’的label控件的样式
     * @参数：qssPath，自定义样式表文件的路径（.qss）
     * @返回值：无
@@ -55,6 +63,13 @@ private:
     * @返回值：无
     */
     void fSetLoginCodeImage(void);
+
+    /*
+    * @说明：设置登录/注册按钮样式
+    * @参数：qssPath，自定义样式表文件的路径（.qss）
+    * @返回值：无
+    */
+    void fSetLoginAndSignButton(void);
 
 };
 #endif // LOGINVIEW_H

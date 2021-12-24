@@ -3,5 +3,9 @@
         <file>QSS/Main/MainView.qss</file>
         <file>QSS/Login/LoginView.qss</file>
         <file>IMG/Login/login_code.jpg</file>
+        <file>IMG/Login/login_top2.png</file>
+        <file>IMG/Login/login_top.png</file>
+        <file>IMG/Login/login_usr.png</file>
+        <file>IMG/Login/login_pwd.png</file>
     </qresource>
 </RCC>

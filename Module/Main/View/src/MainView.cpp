@@ -22,6 +22,7 @@ MainView::~MainView()
 {
     delete (this->ui);
     delete (this->data);
+    delete (this->login_ui);
 }
 
 /*------------------------------------------------------------

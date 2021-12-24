@@ -27,42 +27,23 @@ MainCtrl::~MainCtrl()
 // 槽注册方法
 void MainCtrl::eSlotFuncRegister()
 {
-    QObject::connect(ui->radioButton_4, SIGNAL(clicked(bool)),  // 连接红色单选框按钮槽
-                     this, SLOT(eSelectRedColor(bool)));
-    QObject::connect(ui->radioButton, SIGNAL(clicked(bool)),    // 连接蓝色单选框按钮槽
-                     this, SLOT(eSelectBlueColor(bool)));
-    QObject::connect(ui->radioButton_3, SIGNAL(clicked(bool)),  // 连接绿色单选框按钮槽
-                     this, SLOT(eSelectGreenColor(bool)));
-    QObject::connect(ui->pushButton, SIGNAL(clicked()),         // 连接登录按钮槽
+    QObject::connect(ui->radioButton_4, SIGNAL(clicked()),  // 连接红色单选框按钮槽
+                     this, SLOT(eSelectColor()));
+    QObject::connect(ui->radioButton, SIGNAL(clicked()),    // 连接蓝色单选框按钮槽
+                     this, SLOT(eSelectColor()));
+    QObject::connect(ui->radioButton_3, SIGNAL(clicked()),  // 连接绿色单选框按钮槽
+                     this, SLOT(eSelectColor()));
+    QObject::connect(ui->pushButton, SIGNAL(clicked()),     // 连接登录按钮槽
                      this, SLOT(eClickUserLogin()));
 }
 
-// 红色单选框选中事件函数
-void MainCtrl::eSelectRedColor(bool checked)
+// 颜色选择单选按钮触发事件函数
+void MainCtrl::eSelectColor()
 {
-    if (checked)
-    {
-        ui->textEdit->setText(ui->radioButton_4->text());
-    }
-}
+    QRadioButton* radio_button = qobject_cast<QRadioButton*>(sender());
+    QString object_text = radio_button->text();
 
-// 绿色单选框选中事件函数
-void MainCtrl::eSelectGreenColor(bool checked)
-{
-
-    if (checked)
-    {
-        ui->textEdit->setText(ui->radioButton_3->text());
-    }
-}
-
-// 蓝色单选框选中事件函数
-void MainCtrl::eSelectBlueColor(bool checked)
-{
-    if (checked)
-    {
-        ui->textEdit->setText(ui->radioButton->text());
-    }
+    ui->textEdit->setText(object_text);
 }
 
 // 登录按钮点击事件

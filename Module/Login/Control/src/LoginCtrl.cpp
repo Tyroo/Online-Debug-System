@@ -34,24 +34,18 @@ void LoginCtrl::eSlotFuncRegister()
 // 登录按钮点击事件回调函数
 void LoginCtrl::eSubmitUserInfo()
 {
-    QMessageBox msgbox;
+    QString& username = data->mGetUsername();
+    QString& password = data->mGetPassword();
 
-    QString username;
-    QString password;
-
-    username = "zjl";
-    password = "123";
-
-    if (this->ui->lineEdit->text() == username &&
-       this->ui->lineEdit_2->text() == password)
+    if (this->ui->lineEdit->text() != username ||
+       this->ui->lineEdit_2->text() != password)
     {
-        msgbox.setText("登录成功！");
+        ui->label_6->setText("账号或密码错误");
     }
     else
     {
-        msgbox.setText("登录失败！");
+        QWidget::close();
     }
-    msgbox.exec();
 }
 
 
