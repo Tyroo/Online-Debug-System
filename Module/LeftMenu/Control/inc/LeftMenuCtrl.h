@@ -36,6 +36,9 @@ public:
 
 private slots:
 
+    void eTreeItemCilckExpand(QTreeWidgetItem* item, int arg);
+
+
 };
 
 

@@ -27,7 +27,14 @@ LeftMenuCtrl::~LeftMenuCtrl()
 // 槽注册方法
 void LeftMenuCtrl::eSlotFuncRegister()
 {
+    connect(this->ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this,
+            SLOT(eTreeItemCilckExpand(QTreeWidgetItem*, int)));
+}
 
+// Tree单击展开事件
+void LeftMenuCtrl::eTreeItemCilckExpand(QTreeWidgetItem* item, int arg)
+{
+    item->setExpanded(!item->isExpanded());
 }
 
 
