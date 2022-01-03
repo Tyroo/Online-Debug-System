@@ -3,7 +3,7 @@
 
 #include <QString>
 
-class LoginCtrl;
+
 class LoginData
 {
 

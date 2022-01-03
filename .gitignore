@@ -53,3 +53,4 @@ compile_commands.json
 
 # Project management assistant: Python venv
 ods_manage/venv
+manage.json
