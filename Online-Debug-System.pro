@@ -9,6 +9,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Module/LeftMenu/Data/src/LeftMenuData.cpp \
+    Module/LeftMenu/View/src/LeftMenuView.cpp \
+    Module/LeftMenu/Control/src/LeftMenuCtrl.cpp \
     Module/Login/Data/src/LoginData.cpp \
     Module/Login/View/src/LoginView.cpp \
     Module/Login/Control/src/LoginCtrl.cpp \
@@ -18,6 +21,9 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    Module/LeftMenu/Data/inc/LeftMenuData.h \
+    Module/LeftMenu/View/inc/LeftMenuView.h \
+    Module/LeftMenu/Control/inc/LeftMenuCtrl.h \
     Module/Login/Data/inc/LoginData.h \
     Module/Login/View/inc/LoginView.h \
     Module/Login/Control/inc/LoginCtrl.h \
@@ -26,6 +32,7 @@ HEADERS += \
     Module/Main/Control/inc/MainCtrl.h \
 
 FORMS += \
+    Adorn/UI/LeftMenu/LeftMenuView.ui \
     Adorn/UI/Login/LoginView.ui \
     Adorn/UI/Main/MainView.ui \
 

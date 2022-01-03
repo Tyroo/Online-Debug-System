@@ -7,5 +7,7 @@
         <file>IMG/Login/login_top.png</file>
         <file>IMG/Login/login_usr.png</file>
         <file>IMG/Login/login_pwd.png</file>
+        <file>QSS/LeftMenu/LeftMenuView.qss</file>
+        <file>IMG/LeftMenu/LeftMenu_Dashboard.png</file>
     </qresource>
 </RCC>
