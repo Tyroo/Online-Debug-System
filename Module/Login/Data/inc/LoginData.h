@@ -2,6 +2,12 @@
 #define LOGINDATA_H
 
 #include <QString>
+#include <iostream>
+#include <QThread>
+
+#define LOGINDATA_LOGIN_INTERFACE       ("https://www.baidu.com/Login")
+#define LOGINDATA_SIGN_INTERFACE        ("https://www.baidu.com/Login")
+#define LOGINDATA_RESETPWD_INTERFACE    ("https://www.baidu.com/Login")
 
 
 class LoginData
@@ -24,29 +30,30 @@ public:
     ~LoginData();
 
     /*
-    * @说明：获取登录用户名
+    * @说明：发送登录请求
     * @参数：无
     * @返回值：无
     */
-    QString& mGetUsername(void);
-
-    /*
-    * @说明：获取登录密码
-    * @参数：无
-    * @返回值：无
-    */
-    QString& mGetPassword(void);
+    bool mRequestLoginInterface(const QString& usr, const QString& pwd);
 
 private:
 
-    QString username;
-    QString password;
+    QString login_username;
+    QString login_password;
+
+    QString sign_username;
+    QString sign_password;
+    QString sign_enterpwd;
+    QString sign_emailnum;
+    QString sign_authcode;
+
     /*
     * @说明：初始化主数据
     * @参数：无
     * @返回值：无
     */
-    void mInitLoginData(void);
+    void mInitLoginData();
+
 };
 
 #endif

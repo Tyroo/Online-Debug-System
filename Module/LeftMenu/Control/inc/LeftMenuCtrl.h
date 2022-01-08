@@ -4,7 +4,7 @@
 
 #include "./Module/LeftMenu/View/inc/LeftMenuView.h"
 
-#define LeftMenuView_ENABLE_DEBUGGER
+/* #define LeftMenuView_ENABLE_DEBUGGER */
 
 
 class LeftMenuCtrl: public LeftMenuView

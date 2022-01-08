@@ -31,21 +31,38 @@ void LoginCtrl::eSlotFuncRegister()
                      this, SLOT(eSubmitUserInfo()));
 }
 
-// 登录按钮点击事件回调函数
+// 登录按钮点击事件回调函数（发送异步登录请求）
 void LoginCtrl::eSubmitUserInfo()
 {
-    QString& username = data->mGetUsername();
-    QString& password = data->mGetPassword();
+    QString username;
+    QString password;
+    QPushButton* push_button = qobject_cast<QPushButton*>(sender());
 
-    if (this->ui->lineEdit->text() != username ||
-       this->ui->lineEdit_2->text() != password)
+    username = this->ui->lineEdit->text();
+    password = this->ui->lineEdit_2->text();
+
+    auto login_handler = [this, push_button](QString usr, QString pwd) -> bool
     {
-        ui->label_6->setText("账号或密码错误");
-    }
-    else
-    {
-        QWidget::close();
-    }
+        bool login_status = this->data->
+                mRequestLoginInterface(usr, pwd);
+
+        if (login_status)
+        {
+            QWidget::close();
+        }
+        else
+        {
+            this->ui->label_6->setText("账号或密码错误");
+        }
+
+        push_button->setDisabled(false);
+
+        return true;
+    };
+
+    this->result = std::async(std::launch::async, login_handler, username, password);
+
+    push_button->setDisabled(true);
 }
 
 

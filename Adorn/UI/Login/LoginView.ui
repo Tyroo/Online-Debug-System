@@ -36,32 +36,6 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>0</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-      <bold>false</bold>
-      <stylestrategy>PreferDefault</stylestrategy>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>×</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
@@ -73,7 +47,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>12</pointsize>
       <bold>true</bold>
       <underline>false</underline>
@@ -105,7 +78,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>12</pointsize>
       <bold>true</bold>
       <stylestrategy>NoAntialias</stylestrategy>
@@ -159,7 +131,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>12</pointsize>
       <bold>true</bold>
       <strikeout>false</strikeout>
@@ -185,7 +156,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>12</pointsize>
       <bold>true</bold>
       <stylestrategy>NoAntialias</stylestrategy>
@@ -252,7 +222,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>12</pointsize>
       <bold>false</bold>
       <underline>false</underline>
@@ -278,7 +247,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <stylestrategy>PreferAntialias</stylestrategy>
       <kerning>false</kerning>
      </font>
@@ -298,7 +266,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>7</pointsize>
       <stylestrategy>PreferAntialias</stylestrategy>
       <kerning>false</kerning>
@@ -319,7 +286,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
       <pointsize>11</pointsize>
       <stylestrategy>PreferDefault</stylestrategy>
      </font>
@@ -328,18 +294,32 @@
      <string/>
     </property>
    </widget>
-   <zorder>lineEdit</zorder>
-   <zorder>lineEdit_2</zorder>
-   <zorder>label_2</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>pushButton_2</zorder>
-   <zorder>pushButton_3</zorder>
-   <zorder>label</zorder>
-   <zorder>label_3</zorder>
-   <zorder>pushButton_4</zorder>
-   <zorder>label_4</zorder>
-   <zorder>label_5</zorder>
-   <zorder>label_6</zorder>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>0</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+     <bold>false</bold>
+     <stylestrategy>PreferDefault</stylestrategy>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>×</string>
+   </property>
   </widget>
  </widget>
  <resources/>
