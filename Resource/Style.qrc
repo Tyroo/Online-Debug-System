@@ -9,5 +9,6 @@
         <file>IMG/Login/login_pwd.png</file>
         <file>QSS/LeftMenu/LeftMenuView.qss</file>
         <file>IMG/LeftMenu/LeftMenu_Dashboard.png</file>
+        <file>IMG/Login/login_sign_send_email.png</file>
     </qresource>
 </RCC>

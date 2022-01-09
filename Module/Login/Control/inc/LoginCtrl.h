@@ -3,9 +3,11 @@
 
 
 #include <future>
+#include <QThread>
+#include <QPropertyAnimation>
 #include "./Module/Login/View/inc/LoginView.h"
 
-#define LoginView_ENABLE_DEBUGGER
+/* #define LoginView_ENABLE_DEBUGGER */
 
 using namespace std;
 
@@ -48,6 +50,20 @@ private slots:
     * @返回值：无
     */
     void eSubmitUserInfo(void);
+
+    /*
+    * @说明：点击注册按钮，开启动画滚动至注册页面
+    * @参数：无
+    * @返回值：无
+    */
+    void eLoginGotoSignPage(void);
+
+    /*
+    * @说明：点击返回登录按钮，开启动画滚动至登录页面
+    * @参数：无
+    * @返回值：无
+    */
+    void eSignGotoLoginPage(void);
 };
 
 

@@ -49,7 +49,11 @@ void MainCtrl::eSelectColor()
 // 登录按钮点击事件
 void MainCtrl::eClickUserLogin()
 {
-    this->login_ui->show();
+    if (this->login_ui != nullptr)
+    {
+        this->login_ui = new LoginCtrl;                  // 新建Login控制对象
+        this->login_ui->show();
+    }
 }
 
 #ifdef MainView_ENABLE_DEBUGGER

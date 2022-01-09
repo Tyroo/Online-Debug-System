@@ -12,8 +12,6 @@ MainView::MainView(QWidget *parent) : QMainWindow(parent)
     data = new MainData;                       // 新建主数据对象
     ui = new Ui::MainView;                     // 新建主视图对象
 
-    login_ui = new LoginCtrl;                  // 新建Login控制对象
-
     this->fAddStyleAndUi(MAIN_QSS_FILEPATH);   // 添加样式文件和UI文件
 }
 

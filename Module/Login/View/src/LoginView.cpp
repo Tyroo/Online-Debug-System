@@ -13,6 +13,7 @@ LoginView::LoginView(QWidget *parent) : QWidget(parent)
     ui = new Ui::LoginView;                     // 新建主视图对象
 
     this->fAddStyleAndUi(LOGIN_QSS_FILEPATH);   // 添加样式文件和UI文件
+    this->setAttribute(Qt::WA_DeleteOnClose, true); // 关闭窗体后销毁窗体对象
 
     this->fSetLoginWindowStyle();
     this->fSetLoginLabelStyle();

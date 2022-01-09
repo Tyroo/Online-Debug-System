@@ -13,17 +13,18 @@ border-image:url(:/IMG/Login/login_top2.png);
 }
 
 /* 设置用户名/密码框右侧图标框样式 */
-QLabel#label,QLabel#label_3{
+QLabel#label,QLabel#label_3,QLabel#label_8,
+QLabel#label_9,QLabel#label_12{
 border-bottom:2px solid red;
 background:transparent;
 }
 
-QLabel#label_4{
+QLabel#label_4,QLabel#label_11{
 border-image:url(:/IMG/Login/login_usr.png);
 border-image-slice:10;
 }
 
-QLabel#label_5{
+QLabel#label_5,QLabel#label_13,QLabel#label_10{
 border-image:url(:/IMG/Login/login_pwd.png);
 border-image-slice:10;
 }
@@ -37,7 +38,10 @@ background:transparent;
 }
 
 /* 设置用户名/密码输入框样式 */
-QLineEdit#lineEdit,QLineEdit#lineEdit_2{
+QLineEdit#lineEdit,QLineEdit#lineEdit_2,
+QLineEdit#lineEdit_3,QLineEdit#lineEdit_4,
+QLineEdit#lineEdit_5,QLineEdit#lineEdit_6,
+QLineEdit#lineEdit_7{
 background:transparent;
 border:none;
 border-bottom:2px solid red;
@@ -49,15 +53,36 @@ color:red;
 }
 
 /* 设置登录按钮样式 */
-QPushButton#pushButton{
+QPushButton#pushButton,QPushButton#pushButton_5{
 border-radius:20px;
 border:1px solid red;
 color:gray;
 outline:none;
 }
 
+/* 设置发送按钮中的label样式 */
+QLabel#label_14{
+border-image:url(:/IMG/Login/login_sign_send_email.png);
+z-index:0;
+}
+
+/* 设置发送按钮样式 */
+QPushButton#pushButton_7{
+border-radius:12px;
+background:transparent;
+border:2px solid rgba(230,230,230,0.8);
+outline:none;
+z-index:1;
+}
+
+/* 设置发送按钮鼠标聚焦样式 */
+QPushButton#pushButton_7:hover{
+border:2px solid rgba(200,200,200,0.9);
+border-bottom:2px solid red;
+}
+
 /* 设置注册按钮样式 */
-QPushButton#pushButton_3{
+QPushButton#pushButton_3,QPushButton#pushButton_6{
 color:white;
 outline:none;
 background:red;
@@ -73,6 +98,17 @@ color:gray;
 
 /* 设置登录按钮鼠标聚焦伪事件 */
 QPushButton#pushButton:hover{
+background:red;
+color:white;
+}
+
+/* 设置确认注册按钮鼠标聚焦伪事件 */
+QPushButton#pushButton_6:hover{
+background:rgb(230, 0, 0);
+}
+
+/* 设置返回登录按钮鼠标聚焦伪事件 */
+QPushButton#pushButton_5:hover{
 background:red;
 color:white;
 }

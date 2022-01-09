@@ -4,7 +4,7 @@
 
 #include "./Module/Main/View/inc/MainView.h"
 
-/* #define MainView_ENABLE_DEBUGGER */
+#define MainView_ENABLE_DEBUGGER
 
 
 class MainCtrl: public MainView
