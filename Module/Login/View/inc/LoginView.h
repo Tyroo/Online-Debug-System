@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QWidget>
+#include <QPropertyAnimation>
 #include <QGraphicsDropShadowEffect>
 
 #include "ui_LoginView.h"
@@ -34,6 +35,20 @@ public:
     */
     ~LoginView();
 
+    /*
+    * @说明：登录页到注册页的切换动画
+    * @参数：无
+    * @返回值：无
+    */
+    void fLoginGotoSignPageAnimation(void);
+
+    /*
+    * @说明：注册页到登录页的切换动画
+    * @参数：无
+    * @返回值：无
+    */
+    void fLoginSwitchSignAnimation(QPoint ls, QPoint le, QPoint ss, QPoint se);
+
 private:
 
     /*
@@ -56,20 +71,6 @@ private:
     * @返回值：无
     */
     void fSetLoginLabelStyle(void);
-
-    /*
-    * @说明：设置登录二维码图片
-    * @参数：qssPath，自定义样式表文件的路径（.qss）
-    * @返回值：无
-    */
-    void fSetLoginCodeImage(void);
-
-    /*
-    * @说明：设置登录/注册按钮样式
-    * @参数：qssPath，自定义样式表文件的路径（.qss）
-    * @返回值：无
-    */
-    void fSetLoginAndSignButton(void);
 
 };
 #endif // LOGINVIEW_H

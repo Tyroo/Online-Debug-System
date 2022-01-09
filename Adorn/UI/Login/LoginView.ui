@@ -13,6 +13,11 @@
     <height>500</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Consolas</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>登录</string>
   </property>
@@ -27,6 +32,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Consolas</family>
      <stylestrategy>PreferDefault</stylestrategy>
     </font>
    </property>
@@ -47,6 +53,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <stylestrategy>NoAntialias</stylestrategy>
      </font>
     </property>
@@ -68,6 +75,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <stylestrategy>PreferDefault</stylestrategy>
      </font>
     </property>
@@ -229,6 +237,7 @@
      </property>
      <property name="font">
       <font>
+       <family>Consolas</family>
        <pointsize>11</pointsize>
        <bold>false</bold>
        <stylestrategy>PreferDefault</stylestrategy>
@@ -249,6 +258,7 @@
      </property>
      <property name="font">
       <font>
+       <family>Consolas</family>
        <stylestrategy>NoAntialias</stylestrategy>
       </font>
      </property>
@@ -270,6 +280,7 @@
      </property>
      <property name="font">
       <font>
+       <family>Consolas</family>
        <stylestrategy>NoAntialias</stylestrategy>
       </font>
      </property>
@@ -284,13 +295,14 @@
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>120</y>
+       <y>50</y>
        <width>30</width>
        <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
+       <family>Consolas</family>
        <stylestrategy>PreferAntialias</stylestrategy>
        <kerning>false</kerning>
       </font>
@@ -303,13 +315,14 @@
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>50</y>
+       <y>120</y>
        <width>30</width>
        <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
+       <family>Consolas</family>
        <pointsize>7</pointsize>
        <stylestrategy>PreferAntialias</stylestrategy>
        <kerning>false</kerning>
@@ -787,6 +800,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Consolas</family>
      <pointsize>20</pointsize>
      <bold>false</bold>
      <stylestrategy>PreferDefault</stylestrategy>

@@ -36,6 +36,14 @@ public:
     */
     bool mRequestLoginInterface(const QString& usr, const QString& pwd);
 
+    /*
+    * @说明：发送注册请求
+    * @参数：无
+    * @返回值：无
+    */
+    bool mRequestSignInterface(const QString& usr, const QString& pwd,
+        const QString& enpwd, QString& email, QString& authcode);
+
 private:
 
     QString login_username;

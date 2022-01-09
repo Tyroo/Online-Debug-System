@@ -18,7 +18,6 @@ LoginView::LoginView(QWidget *parent) : QWidget(parent)
     this->fSetLoginWindowStyle();
     this->fSetLoginLabelStyle();
     this->fSetLoginLabelStyle();
-    this->fSetLoginCodeImage();
 }
 
 // 主视图类析构方法，销毁主视图对象
@@ -65,22 +64,24 @@ void LoginView::fSetLoginLabelStyle()
 }
 
 
-// 设置登录页二维码框样式
-void LoginView::fSetLoginCodeImage()
+// 登录页与注册页之间的切换动画
+void LoginView::fLoginSwitchSignAnimation(
+        QPoint ls, QPoint le, QPoint ss, QPoint se)
 {
-//    QString login_code_img = ":/IMG/Login/login_code.jpg";
-//    int width = 100;//最大宽度
-//    int height = 100;//最大高度
-//    slot->ui->label_2->setPixmap(QPixmap::fromImage(QImage(login_code_img).scaled(width,height,Qt::KeepAspectRatio)));
-}
+    QPropertyAnimation* login_animation = new QPropertyAnimation(
+                this->ui->frame_2, "pos");
+    QPropertyAnimation* sign_animation = new QPropertyAnimation(
+                this->ui->frame_3, "pos");
 
-void LoginView::fSetLoginAndSignButton()
-{
-//    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
-//    shadow->setOffset(2, 2);
-//    shadow->setColor(QColor(120, 120, 120));
-//    shadow->setBlurRadius(20);
+    login_animation->setDuration(600);
+    sign_animation->setDuration(600);
 
-//    ui->pushButton_3->setGraphicsEffect(shadow);
-//    ui->pushButton->setGraphicsEffect(shadow);
+    login_animation->setStartValue(ls);
+    login_animation->setEndValue(le);
+
+    sign_animation->setStartValue(ss);
+    sign_animation->setEndValue(se);
+
+    login_animation->start();
+    sign_animation->start();
 }

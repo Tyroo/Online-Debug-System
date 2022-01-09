@@ -47,6 +47,17 @@ bool LoginData::mRequestLoginInterface(const QString& usr, const QString& pwd)
     // LOGINDATA_LOGIN_INTERFACE
     QThread t;
     t.sleep(5);
+    return true;
+}
+
+// 发送注册请求
+bool LoginData::mRequestSignInterface(const QString& usr, const QString& pwd,
+    const QString& enpwd, QString& email, QString& authcode)
+{
+    // 请求登录接口
+    // LOGINDATA_LOGIN_INTERFACE
+    QThread t;
+    t.sleep(5);
     return false;
 }
 

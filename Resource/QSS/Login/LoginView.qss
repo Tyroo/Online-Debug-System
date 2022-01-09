@@ -47,8 +47,8 @@ border:none;
 border-bottom:2px solid red;
 }
 
-/* 设置登录错误提示框样式 */
-QLabel#label_6{
+/* 设置登录/注册错误提示框样式 */
+QLabel#label_6,QLabel#label_7{
 color:red;
 }
 

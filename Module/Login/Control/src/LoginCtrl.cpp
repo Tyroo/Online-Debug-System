@@ -28,16 +28,20 @@ LoginCtrl::~LoginCtrl()
 void LoginCtrl::eSlotFuncRegister()
 {
     QObject::connect(this->ui->pushButton, SIGNAL(clicked()),  // 点击登录按钮事件
-                     this, SLOT(eSubmitUserInfo()));
+                     this, SLOT(eSubmitUserLoginInfo()));
     QObject::connect(this->ui->pushButton_3, SIGNAL(clicked()),  // 点击登录按钮事件
                      this, SLOT(eLoginGotoSignPage()));
-    QObject::connect(this->ui->pushButton_5, SIGNAL(clicked()),  // 点击登录按钮事件
+    QObject::connect(this->ui->pushButton_5, SIGNAL(clicked()),  // 点击注册按钮事件
                      this, SLOT(eSignGotoLoginPage()));
+    QObject::connect(this->ui->pushButton_6, SIGNAL(clicked()),  // 点击确认注册按钮事件
+                     this, SLOT(eSubmitUserSignInfo()));
+    QObject::connect(this->ui->pushButton_7, SIGNAL(clicked()),  // 点击获取验证码按钮事件
+                     this, SLOT(eSignSendEmailRequest()));
 
 }
 
 // 登录按钮点击事件回调函数（发送异步登录请求）
-void LoginCtrl::eSubmitUserInfo()
+void LoginCtrl::eSubmitUserLoginInfo()
 {
     QString username;
     QString password;
@@ -48,16 +52,15 @@ void LoginCtrl::eSubmitUserInfo()
 
     auto login_handler = [this, push_button](QString usr, QString pwd) -> bool
     {
-        QThread t;
+        unsigned long count = 0;
         bool login_status = this->data->
-                mRequestLoginInterface(usr, pwd);
-
+            mRequestLoginInterface(usr, pwd);
 
         if (login_status)
         {
             push_button->setText("登录成功");
             push_button->setStyleSheet("color:rgb(220,0,20)");
-            t.sleep(2);
+            while((count++)<pow(10,8));
             this->close();
         }
         else
@@ -80,52 +83,100 @@ void LoginCtrl::eSubmitUserInfo()
     this->ui->label_6->setText("");
 }
 
-
-void LoginCtrl::eLoginGotoSignPage()
+// 确认注册按钮点击事件回调函数（发送异步注册请求）
+void LoginCtrl::eSubmitUserSignInfo()
 {
-    QPropertyAnimation* login_animation = new QPropertyAnimation(
-                this->ui->frame_2, "pos");
-    QPropertyAnimation* sign_animation = new QPropertyAnimation(
-                this->ui->frame_3, "pos");
+    QString username;
+    QString password;
+    QString enterpwd;
+    QString emailnum;
+    QString authcode;
 
-    login_animation->setDuration(1000);
-    sign_animation->setDuration(1000);
+    username = this->ui->lineEdit_3->text();
+    password = this->ui->lineEdit_4->text();
+    enterpwd = this->ui->lineEdit_5->text();
+    emailnum = this->ui->lineEdit_6->text();
+    authcode = this->ui->lineEdit_7->text();
 
-    login_animation->setStartValue(QPoint(0, 140));
-    login_animation->setEndValue(QPoint(440, 140));
+    if (username.isEmpty() || password.isEmpty() ||
+        enterpwd.isEmpty() || emailnum.isEmpty() ||
+        authcode.isEmpty())
+    {
+        this->ui->label_7->setText("请填写对应空缺项");
+        return;
+    }
 
-    sign_animation->setStartValue(QPoint(-440, 140));
-    sign_animation->setEndValue(QPoint(0, 140));
+    if (password != enterpwd)
+    {
+        this->ui->label_7->setText("两次输入密码不一致");
+        return;
+    }
 
-    login_animation->setEasingCurve(QEasingCurve::InOutQuad);   // 设置动画曲线
-    sign_animation->setEasingCurve(QEasingCurve::InOutQuad);    // 设置动画曲线
+    QPushButton* push_button = qobject_cast<QPushButton*>(sender());
 
-    login_animation->start();
-    sign_animation->start();
+    username = this->ui->lineEdit->text();
+    password = this->ui->lineEdit_2->text();
+
+    auto sign_handler = [this, push_button](QString usr, QString pwd,
+            QString enpwd, QString email, QString authcode) -> bool
+    {
+        unsigned long count = 0;
+        bool sign_status = this->data->
+            mRequestSignInterface(usr, pwd, enpwd, email, authcode);
+
+        if (sign_status)
+        {
+            push_button->setText("注册成功");
+            while((count++)<pow(10,8));
+            this->close();
+        }
+        else
+        {
+            this->ui->label_7->setText("验证码错误");
+            push_button->setText("确认注册");
+        }
+
+        push_button->setDisabled(false);
+        this->ui->pushButton_2->setDisabled(false); // 使能关闭按钮
+
+        return true;
+    };
+
+    this->result = std::async(std::launch::async, sign_handler, username,
+                              password, enterpwd, emailnum, authcode);
+
+    push_button->setDisabled(true);
+    this->ui->pushButton_2->setDisabled(true);      // 禁用关闭按钮
+    push_button->setText("登录中...");
+    this->ui->label_7->setText("");
 }
 
+// 注册验证码请求按钮回调函数
+void LoginCtrl::eSignSendEmailRequest()
+{
+    QString emailnum = this->ui->lineEdit_6->text();
 
+    if (emailnum.isEmpty())
+    {
+        this->ui->label_7->setText("请填写正确的邮箱");
+        return;
+    }
+
+    this->ui->label_7->setText("功能暂未开通，敬请期待！");
+}
+
+// 点击注册按钮，开启动画滚动至注册页面
+void LoginCtrl::eLoginGotoSignPage()
+{
+    LoginView::fLoginSwitchSignAnimation(QPoint(0, 140), QPoint(440, 140),
+        QPoint(-440, 140), QPoint(0, 140));
+}
+
+// 点击返回登录按钮，开启动画滚动至登录页面
 void LoginCtrl::eSignGotoLoginPage()
 {
-    QPropertyAnimation* login_animation = new QPropertyAnimation(
-                this->ui->frame_2, "pos");
-    QPropertyAnimation* sign_animation = new QPropertyAnimation(
-                this->ui->frame_3, "pos");
-
-    login_animation->setDuration(1000);
-    sign_animation->setDuration(1000);
-
-    login_animation->setEndValue(QPoint(0, 140));
-    login_animation->setStartValue(QPoint(440, 140));
-
-    sign_animation->setEndValue(QPoint(-440, 140));
-    sign_animation->setStartValue(QPoint(0, 140));
-
-    login_animation->setEasingCurve(QEasingCurve::InOutQuad);   // 设置动画曲线
-    sign_animation->setEasingCurve(QEasingCurve::InOutQuad);    // 设置动画曲线
-
-    login_animation->start();
-    sign_animation->start();
+    LoginView::fLoginSwitchSignAnimation(QPoint(440, 140), QPoint(0, 140),
+        QPoint(0, 140), QPoint(-440, 140));
 }
 
 
