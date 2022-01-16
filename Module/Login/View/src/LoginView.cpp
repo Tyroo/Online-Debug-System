@@ -9,7 +9,7 @@
 // 主视图类构造方法，初始化主视图对象
 LoginView::LoginView(QWidget *parent) : QWidget(parent)
 {
-    data = new LoginData;                       // 新建槽对象
+    data = new LoginData(this);                       // 新建槽对象
     ui = new Ui::LoginView;                     // 新建主视图对象
 
     this->fAddStyleAndUi(LOGIN_QSS_FILEPATH);   // 添加样式文件和UI文件

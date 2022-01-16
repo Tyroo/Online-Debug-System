@@ -1,6 +1,7 @@
-QT       += core gui
+QT       += core gui charts network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
 
 CONFIG += c++11
 
@@ -9,6 +10,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Library/HttpxRequest/src/HttpxRequest.cpp \
     Module/LeftMenu/Data/src/LeftMenuData.cpp \
     Module/LeftMenu/View/src/LeftMenuView.cpp \
     Module/LeftMenu/Control/src/LeftMenuCtrl.cpp \
@@ -21,6 +23,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    Library/HttpxRequest/inc/HttpxRequest.h \
     Module/LeftMenu/Data/inc/LeftMenuData.h \
     Module/LeftMenu/View/inc/LeftMenuView.h \
     Module/LeftMenu/Control/inc/LeftMenuCtrl.h \

@@ -21,12 +21,10 @@ background:transparent;
 
 QLabel#label_4,QLabel#label_11{
 border-image:url(:/IMG/Login/login_usr.png);
-border-image-slice:10;
 }
 
 QLabel#label_5,QLabel#label_13,QLabel#label_10{
 border-image:url(:/IMG/Login/login_pwd.png);
-border-image-slice:10;
 }
 
 
@@ -63,7 +61,6 @@ outline:none;
 /* 设置发送按钮中的label样式 */
 QLabel#label_14{
 border-image:url(:/IMG/Login/login_sign_send_email.png);
-z-index:0;
 }
 
 /* 设置发送按钮样式 */
@@ -72,7 +69,6 @@ border-radius:12px;
 background:transparent;
 border:2px solid rgba(230,230,230,0.8);
 outline:none;
-z-index:1;
 }
 
 /* 设置发送按钮鼠标聚焦样式 */

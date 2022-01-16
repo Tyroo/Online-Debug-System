@@ -3,6 +3,16 @@
 
 #include <QFile>
 #include <QMainWindow>
+#include <QApplication>
+#include <QtCharts/QChartView>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QLegend>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QHorizontalPercentBarSeries>
+#include <QtCharts/QValueAxis>
+
 
 #include "ui_MainView.h"
 #include "./Module/Main/Data/inc/MainData.h"
@@ -20,6 +30,8 @@ public:
     MainData* data;
     Ui::MainView* ui;
     LoginCtrl* login_ui;
+
+    QHBoxLayout hb;
 
     /*
     * @说明：主视图类构造函数

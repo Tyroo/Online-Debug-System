@@ -9,7 +9,6 @@
 // 主槽类构造方法
 LoginCtrl::LoginCtrl()
 {
-    // pass
     this->eSlotFuncRegister();
 }
 
@@ -36,7 +35,7 @@ void LoginCtrl::eSlotFuncRegister()
     QObject::connect(this->ui->pushButton_6, SIGNAL(clicked()),  // 点击确认注册按钮事件
                      this, SLOT(eSubmitUserSignInfo()));
     QObject::connect(this->ui->pushButton_7, SIGNAL(clicked()),  // 点击获取验证码按钮事件
-                     this, SLOT(eSignSendEmailRequest()));
+                     this, SLOT(eSignSendEmailInfo()));
 
 }
 
@@ -50,37 +49,42 @@ void LoginCtrl::eSubmitUserLoginInfo()
     username = this->ui->lineEdit->text();
     password = this->ui->lineEdit_2->text();
 
-    auto login_handler = [this, push_button](QString usr, QString pwd) -> bool
-    {
-        unsigned long count = 0;
-        bool login_status = this->data->
-            mRequestLoginInterface(usr, pwd);
-
-        if (login_status)
-        {
-            push_button->setText("登录成功");
-            push_button->setStyleSheet("color:rgb(220,0,20)");
-            while((count++)<pow(10,8));
-            this->close();
-        }
-        else
-        {
-            this->ui->label_6->setText("账号或密码错误");
-            push_button->setText("登录");
-        }
-
-        push_button->setDisabled(false);
-        this->ui->pushButton_2->setDisabled(false);
-
-        return true;
-    };
-
-    this->result = std::async(std::launch::async, login_handler, username, password);
-
     push_button->setDisabled(true);
     this->ui->pushButton_2->setDisabled(true);
+
+    this->data->mRequestLoginInterface(username, password);
+
+    QObject::connect(this->data->httpx->respone, SIGNAL(finished()),
+            this, SLOT(eSubmitUserLoginInfoRespone()));
+
     push_button->setText("登录中...");
     this->ui->label_6->setText("");
+}
+
+//QNetworkReply *reply
+void LoginCtrl::eSubmitUserLoginInfoRespone()
+{
+    qint32 id;
+    QString msg;
+    HttpxRequest* httpx = this->data->httpx;
+
+    QJsonObject jd = httpx->toJsonRespone(httpx->respone);
+
+    msg = httpx->getQStrValue(jd, "msg");
+
+    qDebug() << "用户msg：" << msg;
+
+    this->ui->label_6->setText(msg);
+    this->ui->pushButton->setDisabled(false);
+    this->ui->pushButton_2->setDisabled(false);
+
+    // 登录完成关闭登录窗口
+    if (msg == "SUCCESS")
+    {
+        id = httpx->getNumValue(jd, "info>user>id");
+        qDebug() << "用户id：" << id;
+        this->close();
+    }
 }
 
 // 确认注册按钮点击事件回调函数（发送异步注册请求）
@@ -98,9 +102,8 @@ void LoginCtrl::eSubmitUserSignInfo()
     emailnum = this->ui->lineEdit_6->text();
     authcode = this->ui->lineEdit_7->text();
 
-    if (username.isEmpty() || password.isEmpty() ||
-        enterpwd.isEmpty() || emailnum.isEmpty() ||
-        authcode.isEmpty())
+    if (username.isEmpty() || password.isEmpty() || enterpwd.isEmpty() ||
+        emailnum.isEmpty() || authcode.isEmpty())
     {
         this->ui->label_7->setText("请填写对应空缺项");
         return;
@@ -114,36 +117,10 @@ void LoginCtrl::eSubmitUserSignInfo()
 
     QPushButton* push_button = qobject_cast<QPushButton*>(sender());
 
-    username = this->ui->lineEdit->text();
-    password = this->ui->lineEdit_2->text();
+    this->data->mRequestSignInterface(username, password, enterpwd, emailnum, authcode);
 
-    auto sign_handler = [this, push_button](QString usr, QString pwd,
-            QString enpwd, QString email, QString authcode) -> bool
-    {
-        unsigned long count = 0;
-        bool sign_status = this->data->
-            mRequestSignInterface(usr, pwd, enpwd, email, authcode);
-
-        if (sign_status)
-        {
-            push_button->setText("注册成功");
-            while((count++)<pow(10,8));
-            this->close();
-        }
-        else
-        {
-            this->ui->label_7->setText("验证码错误");
-            push_button->setText("确认注册");
-        }
-
-        push_button->setDisabled(false);
-        this->ui->pushButton_2->setDisabled(false); // 使能关闭按钮
-
-        return true;
-    };
-
-    this->result = std::async(std::launch::async, sign_handler, username,
-                              password, enterpwd, emailnum, authcode);
+    QObject::connect(this->data->httpx->respone, SIGNAL(readyRead(QNetworkReply*)),
+            this, SLOT(eSubmitUserSignInfoRespone(QNetworkReply*)));
 
     push_button->setDisabled(true);
     this->ui->pushButton_2->setDisabled(true);      // 禁用关闭按钮
@@ -151,8 +128,15 @@ void LoginCtrl::eSubmitUserSignInfo()
     this->ui->label_7->setText("");
 }
 
+// 确认注册响应回调函数
+void LoginCtrl::eSubmitUserSignInfoRespone()
+{
+    HttpxRequest* httpx = this->data->httpx;
+    QJsonObject jd = httpx->toJsonRespone(httpx->respone);
+}
+
 // 注册验证码请求按钮回调函数
-void LoginCtrl::eSignSendEmailRequest()
+void LoginCtrl::eSignSendEmailInfo()
 {
     QString emailnum = this->ui->lineEdit_6->text();
 

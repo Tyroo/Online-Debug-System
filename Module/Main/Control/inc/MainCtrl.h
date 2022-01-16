@@ -1,10 +1,9 @@
 #ifndef MAINCTRL_H
 #define MAINCTRL_H
 
-
 #include "./Module/Main/View/inc/MainView.h"
 
-/* #define MainView_ENABLE_DEBUGGER */
+#define MainView_ENABLE_DEBUGGER
 
 
 class MainCtrl: public MainView
@@ -49,6 +48,7 @@ private slots:
     * @返回值：无
     */
     void eClickUserLogin();
+
 };
 
 

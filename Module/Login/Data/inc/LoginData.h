@@ -1,12 +1,12 @@
 #ifndef LOGINDATA_H
 #define LOGINDATA_H
 
-#include <QString>
-#include <iostream>
-#include <QThread>
 
-#define LOGINDATA_LOGIN_INTERFACE       ("https://www.baidu.com/Login")
-#define LOGINDATA_SIGN_INTERFACE        ("https://www.baidu.com/Login")
+#include "./Library/HttpxRequest/inc/HttpxRequest.h"
+
+
+#define LOGINDATA_LOGIN_INTERFACE       ("http://159.75.110.166/login/")
+#define LOGINDATA_SIGN_INTERFACE        ("http://159.75.110.166/login/register/")
 #define LOGINDATA_RESETPWD_INTERFACE    ("https://www.baidu.com/Login")
 
 
@@ -15,12 +15,14 @@ class LoginData
 
 public:
 
+    HttpxRequest* httpx;
+
     /*
     * @说明：主数据类构造函数
     * @参数：无
     * @返回值：无
     */
-    LoginData();
+    LoginData(QObject* parent = nullptr);
 
     /*
     * @说明：主数据类析构函数
@@ -30,19 +32,19 @@ public:
     ~LoginData();
 
     /*
-    * @说明：发送登录请求
-    * @参数：无
+    * @说明：登录请求接口
+    * @参数：登录账号和密码
     * @返回值：无
     */
-    bool mRequestLoginInterface(const QString& usr, const QString& pwd);
+    void mRequestLoginInterface(const QString usr, const QString pwd);
 
     /*
-    * @说明：发送注册请求
-    * @参数：无
+    * @说明：注册请求接口
+    * @参数：注册信息
     * @返回值：无
     */
-    bool mRequestSignInterface(const QString& usr, const QString& pwd,
-        const QString& enpwd, QString& email, QString& authcode);
+    void mRequestSignInterface(const QString usr, const QString pwd,
+        const QString enpwd, QString email, QString authcode);
 
 private:
 

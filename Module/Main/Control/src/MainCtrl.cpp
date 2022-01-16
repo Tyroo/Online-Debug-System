@@ -56,6 +56,7 @@ void MainCtrl::eClickUserLogin()
     }
 }
 
+
 #ifdef MainView_ENABLE_DEBUGGER
 
 #include <QApplication>
@@ -65,9 +66,10 @@ void MainCtrl::eClickUserLogin()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     QTranslator translator;
+
     const QStringList uiLanguages = QLocale::system().uiLanguages();
+
     for (const QString &locale : uiLanguages) {
         const QString baseName = "Online-Debug-System_" + QLocale(locale).name();
         if (translator.load(":/i18n/" + baseName)) {
