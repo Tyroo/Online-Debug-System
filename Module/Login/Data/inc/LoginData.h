@@ -6,7 +6,7 @@
 
 
 #define LOGINDATA_LOGIN_INTERFACE       ("http://159.75.110.166/login/")
-#define LOGINDATA_SIGN_INTERFACE        ("http://159.75.110.166/login/register/")
+#define LOGINDATA_SIGN_INTERFACE        ("http://159.75.110.166/login/register")
 #define LOGINDATA_RESETPWD_INTERFACE    ("https://www.baidu.com/Login")
 
 

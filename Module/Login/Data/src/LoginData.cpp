@@ -67,10 +67,11 @@ void LoginData::mRequestSignInterface(const QString usr, const QString pwd,
 
     json_data.insert("username", usr);
     json_data.insert("passwd", pwd);
+    /*
     json_data.insert("enpwd", enpwd);
     json_data.insert("email", email);
     json_data.insert("authcode", authcode);
-
+    */
     this->httpx->post(QString(LOGINDATA_SIGN_INTERFACE), json_data);
 }
 

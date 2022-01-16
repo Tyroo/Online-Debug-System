@@ -9,8 +9,8 @@
 // 主视图类构造方法，初始化主视图对象
 LoginView::LoginView(QWidget *parent) : QWidget(parent)
 {
-    data = new LoginData(this);                       // 新建槽对象
-    ui = new Ui::LoginView;                     // 新建主视图对象
+    this->data = new LoginData(this);           // 新建槽对象
+    this->ui = new Ui::LoginView;               // 新建主视图对象
 
     this->fAddStyleAndUi(LOGIN_QSS_FILEPATH);   // 添加样式文件和UI文件
     this->setAttribute(Qt::WA_DeleteOnClose, true); // 关闭窗体后销毁窗体对象
@@ -68,10 +68,12 @@ void LoginView::fSetLoginLabelStyle()
 void LoginView::fLoginSwitchSignAnimation(
         QPoint ls, QPoint le, QPoint ss, QPoint se)
 {
+
+    QParallelAnimationGroup* group = new QParallelAnimationGroup;
     QPropertyAnimation* login_animation = new QPropertyAnimation(
-                this->ui->frame_2, "pos");
+                    this->ui->frame_2, "pos");
     QPropertyAnimation* sign_animation = new QPropertyAnimation(
-                this->ui->frame_3, "pos");
+                    this->ui->frame_3, "pos");
 
     login_animation->setDuration(600);
     sign_animation->setDuration(600);
@@ -82,6 +84,8 @@ void LoginView::fLoginSwitchSignAnimation(
     sign_animation->setStartValue(ss);
     sign_animation->setEndValue(se);
 
-    login_animation->start();
-    sign_animation->start();
+    group->addAnimation(login_animation);
+    group->addAnimation(sign_animation);
+
+    group->start();
 }

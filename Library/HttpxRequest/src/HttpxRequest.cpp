@@ -6,7 +6,6 @@ HttpxRequest::HttpxRequest(QObject* parent)
     Q_ASSERT(parent != nullptr);
 
     this->_this = parent;
-    this->_request = _HttpRequest();
     this->_manager = new _HttpManager(this->_this);
     this->_separator = ">";
 }
@@ -59,7 +58,7 @@ void HttpxRequest::post(QString url, QJsonObject json)
 --------------------------------------------------------------*/
 
 // 返回QJsonObject类型的响应数据
-QJsonObject HttpxRequest::toJsonRespone(QNetworkReply *reply)
+QJsonObject HttpxRequest::toJsonRespone(_HttpRespone *reply)
 {
     QByteArray byte = reply->readAll();
     QJsonDocument jsonDoc = QJsonDocument::fromJson(byte);
@@ -71,7 +70,7 @@ QJsonObject HttpxRequest::toJsonRespone(QNetworkReply *reply)
 }
 
 // 返回QString类型的响应数据
-QString HttpxRequest::toQStrRespone(QNetworkReply *reply)
+QString HttpxRequest::toQStrRespone(_HttpRespone *reply)
 {
     QByteArray byte = reply->readAll();
     QTextCodec* codec = QTextCodec::codecForName("UTF-8");
@@ -95,7 +94,7 @@ int HttpxRequest::getNumValue(const QJsonObject& json, const QString& keys)
 
     Q_ASSERT((!jsonValue.isUndefined()) && (!jsonValue.isNull()));
 
-    return jsonValue.toInteger();
+    return (jsonValue.toInteger());
 }
 
 // 获取Json中的字符串型数据
@@ -103,13 +102,9 @@ QString HttpxRequest::getQStrValue(const QJsonObject& json, const QString& keys)
 {
     QJsonValue jsonValue = this->_recursionFindJsonValue(json, keys);
 
-    if (jsonValue.isUndefined() || jsonValue.isNull())
-    {
-        qDebug()<<"出错啦";
-    }
-//    Q_ASSERT((!jsonValue.isUndefined()) && (!jsonValue.isNull()));
+    Q_ASSERT((!jsonValue.isUndefined()) && (!jsonValue.isNull()));
 
-    return jsonValue.toString();
+    return (jsonValue.toString());
 }
 
 // 获取Json中的BOOL型数据
@@ -119,7 +114,7 @@ bool HttpxRequest::getBoolValue(const QJsonObject& json, const QString& keys)
 
     Q_ASSERT((!jsonValue.isUndefined()) && (!jsonValue.isNull()));
 
-    return jsonValue.toBool();
+    return (jsonValue.toBool());
 }
 
 // 设置递归查找分隔符

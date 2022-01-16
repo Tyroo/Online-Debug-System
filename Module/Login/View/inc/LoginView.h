@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QWidget>
 #include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
 #include <QGraphicsDropShadowEffect>
 
 #include "ui_LoginView.h"

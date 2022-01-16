@@ -1,7 +1,6 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include <vector>
 #include <QObject>
 #include <QString>
 #include <QJsonDocument>
@@ -12,18 +11,16 @@
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
 
-using namespace std;
-
 typedef QNetworkAccessManager _HttpManager;
 typedef QNetworkRequest _HttpRequest;
-
+typedef QNetworkReply _HttpRespone;
 
 class HttpxRequest
 {
 
 public:
 
-    QNetworkReply* respone;
+    _HttpRespone* respone;
 
 public:
 
@@ -41,9 +38,9 @@ public:
 
 public:
 
-    QJsonObject toJsonRespone(QNetworkReply *reply);
+    QJsonObject toJsonRespone(_HttpRespone *reply);
 
-    QString toQStrRespone(QNetworkReply *reply);
+    QString toQStrRespone(_HttpRespone *reply);
 
 public:
 
@@ -59,13 +56,13 @@ public:
 
 private:
 
-    _HttpManager* _manager;
-
-    _HttpRequest _request;
-
     QObject* _this;
 
     QString _separator;
+
+    _HttpManager* _manager;
+
+    _HttpRequest _request;
 
 private:
 

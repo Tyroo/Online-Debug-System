@@ -61,7 +61,7 @@ void LoginCtrl::eSubmitUserLoginInfo()
     this->ui->label_6->setText("");
 }
 
-//QNetworkReply *reply
+// 登录请求响应成功回调函数
 void LoginCtrl::eSubmitUserLoginInfoRespone()
 {
     qint32 id;
@@ -72,8 +72,6 @@ void LoginCtrl::eSubmitUserLoginInfoRespone()
 
     msg = httpx->getQStrValue(jd, "msg");
 
-    qDebug() << "用户msg：" << msg;
-
     this->ui->label_6->setText(msg);
     this->ui->pushButton->setDisabled(false);
     this->ui->pushButton_2->setDisabled(false);
@@ -82,7 +80,6 @@ void LoginCtrl::eSubmitUserLoginInfoRespone()
     if (msg == "SUCCESS")
     {
         id = httpx->getNumValue(jd, "info>user>id");
-        qDebug() << "用户id：" << id;
         this->close();
     }
 }
@@ -119,20 +116,35 @@ void LoginCtrl::eSubmitUserSignInfo()
 
     this->data->mRequestSignInterface(username, password, enterpwd, emailnum, authcode);
 
-    QObject::connect(this->data->httpx->respone, SIGNAL(readyRead(QNetworkReply*)),
-            this, SLOT(eSubmitUserSignInfoRespone(QNetworkReply*)));
+    QObject::connect(this->data->httpx->respone, SIGNAL(finished()),
+            this, SLOT(eSubmitUserSignInfoRespone()));
 
-    push_button->setDisabled(true);
+    push_button->setDisabled(true);                 // 禁用确认注册按钮
     this->ui->pushButton_2->setDisabled(true);      // 禁用关闭按钮
-    push_button->setText("登录中...");
+    push_button->setText("注册中...");
     this->ui->label_7->setText("");
 }
 
-// 确认注册响应回调函数
+// 确认注册响应成功回调函数
 void LoginCtrl::eSubmitUserSignInfoRespone()
 {
+    qint32 id;
+    QString msg;
     HttpxRequest* httpx = this->data->httpx;
     QJsonObject jd = httpx->toJsonRespone(httpx->respone);
+
+    msg = httpx->getQStrValue(jd, "msg");
+
+    // 登录完成关闭登录窗口
+    if (msg == "注册成功")
+    {
+        id = httpx->getNumValue(jd, "info>user>id");
+        this->close();
+    }
+
+    this->ui->pushButton_6->setDisabled(false);      // 禁用确认注册按钮
+    this->ui->pushButton_2->setDisabled(false);      // 禁用关闭按钮
+    this->ui->label_7->setText(msg);
 }
 
 // 注册验证码请求按钮回调函数
