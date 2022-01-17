@@ -1,12 +1,12 @@
 #include "./Module/Login/Control/inc/LoginCtrl.h"
 
-
 /*------------------------------------------------------------
 @作用：主槽类默认方法
 @包含：LoginCtrl()、~LoginCtrl()
 --------------------------------------------------------------*/
 
 // 主槽类构造方法
+
 LoginCtrl::LoginCtrl()
 {
     this->eSlotFuncRegister();
@@ -30,35 +30,40 @@ void LoginCtrl::eSlotFuncRegister()
                      this, SLOT(eSubmitUserLoginInfo()));
     QObject::connect(this->ui->pushButton_3, SIGNAL(clicked()),  // 点击登录按钮事件
                      this, SLOT(eLoginGotoSignPage()));
-    QObject::connect(this->ui->pushButton_5, SIGNAL(clicked()),  // 点击注册按钮事件
+    QObject::connect(this->ui->pushButton_5, SIGNAL(clicked()),  // 点击返回登录按钮事件
                      this, SLOT(eSignGotoLoginPage()));
     QObject::connect(this->ui->pushButton_6, SIGNAL(clicked()),  // 点击确认注册按钮事件
                      this, SLOT(eSubmitUserSignInfo()));
     QObject::connect(this->ui->pushButton_7, SIGNAL(clicked()),  // 点击获取验证码按钮事件
                      this, SLOT(eSignSendEmailInfo()));
-
 }
 
 // 登录按钮点击事件回调函数（发送异步登录请求）
 void LoginCtrl::eSubmitUserLoginInfo()
 {
-    QString username;
-    QString password;
     QPushButton* push_button = qobject_cast<QPushButton*>(sender());
 
-    username = this->ui->lineEdit->text();
-    password = this->ui->lineEdit_2->text();
+    this->ui->label_6->setText("");
+    this->data->login_username = this->ui->lineEdit->text();
+    this->data->login_password = this->ui->lineEdit_2->text();
+
+    if (this->data->login_username.isEmpty() ||
+        this->data->login_password.isEmpty())
+    {
+        this->ui->label_6->setText("请填写账号或密码");
+        return;
+    }
 
     push_button->setDisabled(true);
     this->ui->pushButton_2->setDisabled(true);
 
-    this->data->mRequestLoginInterface(username, password);
+    this->data->mRequestLoginInterface();
 
+    // 连接槽
     QObject::connect(this->data->httpx->respone, SIGNAL(finished()),
             this, SLOT(eSubmitUserLoginInfoRespone()));
 
     push_button->setText("登录中...");
-    this->ui->label_6->setText("");
 }
 
 // 登录请求响应成功回调函数
@@ -67,46 +72,48 @@ void LoginCtrl::eSubmitUserLoginInfoRespone()
     qint32 id;
     QString msg;
     HttpxRequest* httpx = this->data->httpx;
+    QJsonObject data = httpx->toJsonRespone(httpx->respone);
 
-    QJsonObject jd = httpx->toJsonRespone(httpx->respone);
+    // 解除槽连接
+    QObject::disconnect(this->data->httpx->respone, SIGNAL(finished()),
+            this, SLOT(eSubmitUserLoginInfoRespone()));
 
-    msg = httpx->getQStrValue(jd, "msg");
+    msg = httpx->getQStrValue(data, "msg");
 
     this->ui->label_6->setText(msg);
+    this->ui->pushButton->setText("登录");
     this->ui->pushButton->setDisabled(false);
     this->ui->pushButton_2->setDisabled(false);
 
     // 登录完成关闭登录窗口
     if (msg == "SUCCESS")
     {
-        id = httpx->getNumValue(jd, "info>user>id");
+        id = httpx->getNumValue(data, "info>user>id");
         this->close();
+        emit (this->sLoginFinish(id, this));    // 发送信号给主界面
     }
 }
 
 // 确认注册按钮点击事件回调函数（发送异步注册请求）
 void LoginCtrl::eSubmitUserSignInfo()
 {
-    QString username;
-    QString password;
-    QString enterpwd;
-    QString emailnum;
-    QString authcode;
+    this->data->sign_username = this->ui->lineEdit_3->text();
+    this->data->sign_password = this->ui->lineEdit_4->text();
+    this->data->sign_enterpwd = this->ui->lineEdit_5->text();
+    this->data->sign_emailnum = this->ui->lineEdit_6->text();
+    this->data->sign_authcode = this->ui->lineEdit_7->text();
 
-    username = this->ui->lineEdit_3->text();
-    password = this->ui->lineEdit_4->text();
-    enterpwd = this->ui->lineEdit_5->text();
-    emailnum = this->ui->lineEdit_6->text();
-    authcode = this->ui->lineEdit_7->text();
-
-    if (username.isEmpty() || password.isEmpty() || enterpwd.isEmpty() ||
-        emailnum.isEmpty() || authcode.isEmpty())
+    if (this->data->sign_username.isEmpty() ||
+        this->data->sign_password.isEmpty() ||
+        this->data->sign_enterpwd.isEmpty() ||
+        this->data->sign_emailnum.isEmpty() ||
+        this->data->sign_authcode.isEmpty())
     {
         this->ui->label_7->setText("请填写对应空缺项");
         return;
     }
 
-    if (password != enterpwd)
+    if (this->data->sign_password != this->data->sign_enterpwd)
     {
         this->ui->label_7->setText("两次输入密码不一致");
         return;
@@ -114,7 +121,7 @@ void LoginCtrl::eSubmitUserSignInfo()
 
     QPushButton* push_button = qobject_cast<QPushButton*>(sender());
 
-    this->data->mRequestSignInterface(username, password, enterpwd, emailnum, authcode);
+    this->data->mRequestSignInterface();
 
     QObject::connect(this->data->httpx->respone, SIGNAL(finished()),
             this, SLOT(eSubmitUserSignInfoRespone()));
@@ -131,20 +138,26 @@ void LoginCtrl::eSubmitUserSignInfoRespone()
     qint32 id;
     QString msg;
     HttpxRequest* httpx = this->data->httpx;
-    QJsonObject jd = httpx->toJsonRespone(httpx->respone);
+    QJsonObject data = httpx->toJsonRespone(httpx->respone);
 
-    msg = httpx->getQStrValue(jd, "msg");
+    // 解除槽连接
+    QObject::disconnect(this->data->httpx->respone, SIGNAL(finished()),
+            this, SLOT(eSubmitUserSignInfoRespone()));
+
+    msg = httpx->getQStrValue(data, "msg");
+
+    this->ui->pushButton_6->setText("确认注册");
+    this->ui->pushButton_6->setDisabled(false);      // 禁用确认注册按钮
+    this->ui->pushButton_2->setDisabled(false);      // 禁用关闭按钮
+    this->ui->label_7->setText(msg);
 
     // 登录完成关闭登录窗口
     if (msg == "注册成功")
     {
-        id = httpx->getNumValue(jd, "info>user>id");
+        id = httpx->getNumValue(data, "info>user>id");
         this->close();
+        // pass
     }
-
-    this->ui->pushButton_6->setDisabled(false);      // 禁用确认注册按钮
-    this->ui->pushButton_2->setDisabled(false);      // 禁用关闭按钮
-    this->ui->label_7->setText(msg);
 }
 
 // 注册验证码请求按钮回调函数
@@ -164,6 +177,7 @@ void LoginCtrl::eSignSendEmailInfo()
 // 点击注册按钮，开启动画滚动至注册页面
 void LoginCtrl::eLoginGotoSignPage()
 {
+    this->ui->label_6->setText("");
     LoginView::fLoginSwitchSignAnimation(QPoint(0, 140), QPoint(440, 140),
         QPoint(-440, 140), QPoint(0, 140));
 }
@@ -171,6 +185,7 @@ void LoginCtrl::eLoginGotoSignPage()
 // 点击返回登录按钮，开启动画滚动至登录页面
 void LoginCtrl::eSignGotoLoginPage()
 {
+    this->ui->label_7->setText("");
     LoginView::fLoginSwitchSignAnimation(QPoint(440, 140), QPoint(0, 140),
         QPoint(0, 140), QPoint(-440, 140));
 }

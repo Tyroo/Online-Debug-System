@@ -16,7 +16,6 @@
 
 #include "ui_MainView.h"
 #include "./Module/Main/Data/inc/MainData.h"
-#include "./Module/Login/Control/inc/LoginCtrl.h"
 
 #define MAIN_QSS_FILEPATH   ((char*)":/QSS/Main/MainView.qss")   // QSS文件路径
 
@@ -27,9 +26,8 @@ class MainView : public QMainWindow
 
 public:
 
-    MainData* data;
-    Ui::MainView* ui;
-    LoginCtrl* login_ui;
+    MainData* data = nullptr;
+    Ui::MainView* ui = nullptr;
 
     QHBoxLayout hb;
 

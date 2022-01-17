@@ -38,6 +38,8 @@ private slots:
 
     void eTreeItemCilckExpand(QTreeWidgetItem* item, int arg);
 
+    void eLeftMenuPageSwitch(void);
+
 
 };
 

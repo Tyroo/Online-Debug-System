@@ -49,11 +49,23 @@ void MainCtrl::eSelectColor()
 // 登录按钮点击事件
 void MainCtrl::eClickUserLogin()
 {
-    if (this->login_ui != nullptr)
-    {
-        this->login_ui = new LoginCtrl;                  // 新建Login控制对象
-        this->login_ui->show();
-    }
+    this->login_ctrl = new LoginCtrl; // 新建Login控制对象
+    // 连接登录页发送过来的登陆完成信号到eLoginFinish槽
+    QObject::connect(this->login_ctrl, SIGNAL(sLoginFinish(qint32, LoginCtrl*)),
+                     this, SLOT(eLoginFinish(qint32, LoginCtrl*)));
+    this->login_ctrl->show();
+}
+
+// 登陆完成信号主界面响应槽函数
+void MainCtrl::eLoginFinish(qint32 id,  LoginCtrl* login_ctrl)
+{
+    ui->textEdit->setText(QString("登陆成功，ID：") + QString::number(id));
+    // 解除登录页发送过来的登陆完成信号到eLoginFinish槽
+    QObject::disconnect(this->login_ctrl,
+                     SIGNAL(sLoginFinish(qint32, LoginCtrl*)),
+                     this,
+                     SLOT(eLoginFinish(qint32, LoginCtrl*)));
+    login_ctrl->close();
 }
 
 

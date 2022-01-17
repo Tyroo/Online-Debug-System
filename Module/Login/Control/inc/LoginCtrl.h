@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 class LoginCtrl: public LoginView
 {
 
@@ -20,7 +21,7 @@ public:
     * @参数：无
     * @返回值：无
     */
-    LoginCtrl();
+    explicit LoginCtrl();
 
     /*
     * @说明：主槽类析构函数
@@ -95,6 +96,10 @@ private slots:
     * @返回值：无
     */
     void eSubmitUserSignInfoRespone(void);
+
+signals:
+
+    void sLoginFinish(qint32 userId, LoginCtrl* login_ctrl);
 
 };
 

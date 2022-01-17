@@ -145,9 +145,17 @@ MainView::MainView(QWidget *parent) : QMainWindow(parent)
 // 主视图类析构方法，销毁主视图对象
 MainView::~MainView()
 {
-    delete (this->ui);
-    delete (this->data);
-    delete (this->login_ui);
+    if (this->ui != nullptr)
+    {
+        delete (this->ui);
+        this->ui = nullptr;
+    }
+
+    if (this->data != nullptr)
+    {
+        delete (this->data);
+        this->data = nullptr;
+    }
 }
 
 /*------------------------------------------------------------

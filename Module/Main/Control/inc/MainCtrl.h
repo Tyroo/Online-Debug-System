@@ -2,6 +2,7 @@
 #define MAINCTRL_H
 
 #include "./Module/Main/View/inc/MainView.h"
+#include "./Module/Login/Control/inc/LoginCtrl.h"
 
 #define MainView_ENABLE_DEBUGGER
 
@@ -9,6 +10,10 @@
 class MainCtrl: public MainView
 {
     Q_OBJECT
+
+public:
+
+    LoginCtrl* login_ctrl = nullptr;
 
 public:
 
@@ -48,6 +53,10 @@ private slots:
     * @返回值：无
     */
     void eClickUserLogin();
+
+private slots:
+
+    void eLoginFinish(qint32 id, LoginCtrl* login_ctrl);
 
 };
 

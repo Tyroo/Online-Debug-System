@@ -15,6 +15,19 @@ class LoginData
 
 public:
 
+    // 登陆数据请求
+    QString login_username;
+    QString login_password;
+
+    // 注册/找回密码数据请求
+    QString sign_username;
+    QString sign_password;
+    QString sign_enterpwd;
+    QString sign_emailnum;
+    QString sign_authcode;
+
+public:
+
     HttpxRequest* httpx;
 
     /*
@@ -36,26 +49,16 @@ public:
     * @参数：登录账号和密码
     * @返回值：无
     */
-    void mRequestLoginInterface(const QString usr, const QString pwd);
+    void mRequestLoginInterface(void);
 
     /*
     * @说明：注册请求接口
     * @参数：注册信息
     * @返回值：无
     */
-    void mRequestSignInterface(const QString usr, const QString pwd,
-        const QString enpwd, QString email, QString authcode);
+    void mRequestSignInterface(void);
 
 private:
-
-    QString login_username;
-    QString login_password;
-
-    QString sign_username;
-    QString sign_password;
-    QString sign_enterpwd;
-    QString sign_emailnum;
-    QString sign_authcode;
 
     /*
     * @说明：初始化主数据
