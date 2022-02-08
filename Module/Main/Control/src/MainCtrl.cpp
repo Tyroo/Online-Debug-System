@@ -35,6 +35,9 @@ void MainCtrl::eSlotFuncRegister()
                      this, SLOT(eSelectColor()));
     QObject::connect(ui->pushButton, SIGNAL(clicked()),     // 连接登录按钮槽
                      this, SLOT(eClickUserLogin()));
+
+    QObject::connect(ui->pushButton_2, SIGNAL(clicked()),     // 连接登录按钮槽
+                     this, SLOT(eClickPushButton_2()));
 }
 
 // 颜色选择单选按钮触发事件函数
@@ -66,6 +69,12 @@ void MainCtrl::eLoginFinish(qint32 id,  LoginCtrl* login_ctrl)
                      this,
                      SLOT(eLoginFinish(qint32, LoginCtrl*)));
     login_ctrl->close();
+}
+
+void MainCtrl::eClickPushButton_2()
+{
+    this->leftMenu_ctrl = new LeftMenuCtrl;
+    this->leftMenu_ctrl->show();
 }
 
 

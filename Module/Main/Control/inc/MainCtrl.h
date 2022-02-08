@@ -3,6 +3,7 @@
 
 #include "./Module/Main/View/inc/MainView.h"
 #include "./Module/Login/Control/inc/LoginCtrl.h"
+#include "./Module/LeftMenu/Control/inc/LeftMenuCtrl.h"
 
 #define MainView_ENABLE_DEBUGGER
 
@@ -13,6 +14,7 @@ class MainCtrl: public MainView
 
 public:
 
+    LeftMenuCtrl* leftMenu_ctrl = nullptr;
     LoginCtrl* login_ctrl = nullptr;
 
 public:
@@ -36,7 +38,7 @@ public:
     * @参数：无
     * @返回值：无
     */
-    void eSlotFuncRegister();
+    void eSlotFuncRegister(void);
 
 private slots:
 
@@ -52,7 +54,10 @@ private slots:
     * @参数：无
     * @返回值：无
     */
-    void eClickUserLogin();
+    void eClickUserLogin(void);
+
+
+    void eClickPushButton_2(void);
 
 private slots:
 

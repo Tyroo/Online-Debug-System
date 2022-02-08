@@ -1,9 +1,46 @@
 #ifndef LEFTMENUDATA_H
 #define LEFTMENUDATA_H
 
+#include <QString>
+#include <vector>
+#include <QDir>
+#include "Library/SqliteControl/inc/SqliteControl.h"
+
+using namespace std;
+
+#define QUERY_LEFTMENU_NODELIST_CN_SQL   ("SELECT NodeName,NodeIcon,NodeLevel,NodeIndex,NodeStatus,NodeParentIndex FROM \"LeftMenuNodeList_CN\"")
+
+// 菜单树形结构体
+typedef struct _LeftMenuNodeType
+{
+    QString nodeIcon;       // 节点图标地址
+    QString nodeName;           // 节点名称
+    qint8 nodeStatus:2;         // 节点状态（0禁用~1启用）
+    qint8 nodeLevel:4;          // 当前节点级别（0~N）
+    qint8 nodeIndex:5;          // 当前节点索引（0~N）
+    qint8 nodeParentIndex:5;    // 父节点索引（-1~N）
+    vector<qint8> childNodeIndexList;    // 子节点索引列表[1,2,3,...,N]
+} LeftMenuNodeType;
+
+enum _LeftMenuNodeEnum
+{
+    nodeName,
+    nodeIcon,
+    nodeLevel,
+    nodeIndex,
+    nodeStatus,
+    nodeParentIndex,
+    nodeBottom,
+};
+
 
 class LeftMenuData
 {
+
+public:
+
+
+   vector<LeftMenuNodeType> nodeMenuList;
 
 public:
 
@@ -29,6 +66,7 @@ private:
     * @返回值：无
     */
     void mInitLeftMenuData(void);
+
 };
 
 #endif

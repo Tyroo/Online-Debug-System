@@ -1,8 +1,10 @@
 #ifndef LEFTMENUCTRL_H
 #define LEFTMENUCTRL_H
 
-
+#include <vector>
 #include "./Module/LeftMenu/View/inc/LeftMenuView.h"
+
+using namespace std;
 
 /* #define LeftMenuView_ENABLE_DEBUGGER */
 
@@ -36,9 +38,10 @@ public:
 
 private slots:
 
-    void eTreeItemCilckExpand(QTreeWidgetItem* item, int arg);
-
     void eLeftMenuPageSwitch(void);
+
+    // 菜单项单击响应事件
+    void eLeftMenuItemClicked(void);
 
 
 };

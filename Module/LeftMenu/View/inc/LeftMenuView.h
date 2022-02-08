@@ -3,12 +3,20 @@
 
 #include <QFile>
 #include <QWidget>
+#include <vector>
+#include <QMenu>
 
 #include "ui_LeftMenuView.h"
 #include "./Module/LeftMenu/Data/inc/LeftMenuData.h"
 
 #define LEFTMENU_QSS_FILEPATH   ((char*)":/QSS/LeftMenu/LeftMenuView.qss")   // QSS文件路径
 
+typedef struct _LeftMenuContainerAttribute
+{
+    qint8 containerIndex;
+    qint8 parentItemIndex;
+    quint8 itemLength;
+} LeftMenuContainerAttribute;
 
 class LeftMenuView : public QWidget
 {
@@ -18,6 +26,10 @@ public:
 
     LeftMenuData* data;
     Ui::LeftMenuView* ui;
+    QMenu* popupMenu;
+
+    vector<QPushButton*> LeftMenuItemList;
+    vector<QWidget*> LeftMenuContainerList;
 
     /*
     * @说明：主视图类构造函数
@@ -33,6 +45,13 @@ public:
     */
     ~LeftMenuView();
 
+    /*
+    * @说明：加载菜单容器
+    * @参数：无
+    * @返回值：无
+    */
+    void fLoadLeftMenuContainer(LeftMenuContainerAttribute& Container);
+
 private:
 
     /*
@@ -43,11 +62,11 @@ private:
     void fAddStyleAndUi(char qssPath[]);
 
     /*
-    * @说明：设置TreeWidget的子项目的样式
-    * @参数：qssPath，自定义样式表文件的路径（.qss）
+    * @说明：卸载左侧菜单
+    * @参数：无
     * @返回值：无
     */
-    void fSetItemStyle(void);
+    void fUnLoadLeftMenuContainer(void);
 
 };
 #endif // LEFTMENUVIEW_H

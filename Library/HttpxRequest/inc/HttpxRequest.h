@@ -1,5 +1,5 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef HTTPXREQUEST_H
+#define HTTPXREQUEST_H
 
 #include <QObject>
 #include <QString>

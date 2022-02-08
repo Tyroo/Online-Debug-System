@@ -1,4 +1,4 @@
-QT       += core gui charts network
+QT       += core gui charts network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
@@ -11,6 +11,7 @@ CONFIG += c++11
 
 SOURCES += \
     Library/HttpxRequest/src/HttpxRequest.cpp \
+    Library/SqliteControl/src/SqliteControl.cpp \
     Module/LeftMenu/Data/src/LeftMenuData.cpp \
     Module/LeftMenu/View/src/LeftMenuView.cpp \
     Module/LeftMenu/Control/src/LeftMenuCtrl.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     Library/HttpxRequest/inc/HttpxRequest.h \
+    Library/SqliteControl/inc/SqliteControl.h \
     Module/LeftMenu/Data/inc/LeftMenuData.h \
     Module/LeftMenu/View/inc/LeftMenuView.h \
     Module/LeftMenu/Control/inc/LeftMenuCtrl.h \
