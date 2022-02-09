@@ -8,7 +8,12 @@
 
 using namespace std;
 
-#define QUERY_LEFTMENU_NODELIST_CN_SQL   ("SELECT NodeName,NodeIcon,NodeLevel,NodeIndex,NodeStatus,NodeParentIndex FROM \"LeftMenuNodeList_CN\"")
+#define QUERY_LEFTMENU_LEVELNUM_CN_SQL (\
+    "SELECT COUNT(*) AS LevelCount FROM (SELECT NodeLevel FROM LeftMenuNodeList_CN GROUP BY NodeLevel)")
+
+#define QUERY_LEFTMENU_NODELIST_CN_SQL   (\
+    "SELECT * FROM (SELECT * FROM LeftMenuNodeList_CN ORDER BY NodeIndex) ORDER BY NodeLevel")
+
 
 // 菜单树形结构体
 typedef struct _LeftMenuNodeType
@@ -24,11 +29,12 @@ typedef struct _LeftMenuNodeType
 
 enum _LeftMenuNodeEnum
 {
+    id,
     nodeName,
     nodeIcon,
+    nodeStatus,
     nodeLevel,
     nodeIndex,
-    nodeStatus,
     nodeParentIndex,
     nodeBottom,
 };
@@ -39,8 +45,7 @@ class LeftMenuData
 
 public:
 
-
-   vector<LeftMenuNodeType> nodeMenuList;
+   vector<vector<LeftMenuNodeType>> nodeMenuList;
 
 public:
 

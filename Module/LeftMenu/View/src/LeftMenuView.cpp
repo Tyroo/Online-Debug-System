@@ -11,12 +11,12 @@ LeftMenuView::LeftMenuView(QWidget *parent) : QWidget(parent)
 {
     LeftMenuContainerAttribute containerAttr;
 
-    containerAttr.containerIndex = -1;
-    containerAttr.parentItemIndex = -1;
-    containerAttr.itemLength = 5;
-
     data = new LeftMenuData;                       // 新建槽对象
     ui = new Ui::LeftMenuView;                     // 新建主视图对象
+
+    containerAttr.containerLevel = 0;
+    containerAttr.parentItemIndex = -1;
+    containerAttr.parentItemListSize = this->data->nodeMenuList.front().size();
 
     this->fAddStyleAndUi(LEFTMENU_QSS_FILEPATH);   // 添加样式文件和UI文件
 
@@ -52,50 +52,46 @@ void LeftMenuView::fAddStyleAndUi(char* qssPath)
 // 加载菜单容器
 void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerAttr)
 {
-    bool isNewItem = false;
+    LeftMenuNodeType menuNode;
+    qint8 i, ccl, cpii, cpils;
 
-    if (containerAttr.containerIndex < 0)
+    ccl = containerAttr.containerLevel;
+    cpii = containerAttr.parentItemIndex;
+    cpils = containerAttr.parentItemListSize;
+
+    QWidget* container = new QWidget(this->ui->widget);
+    container->setGeometry(ccl*200, 100, 200, 500);
+    container->setStyleSheet("background-color:red;");
+
+
+    for (i=0; i<cpils; i++)
     {
-        isNewItem = true;
-        QWidget* container = new QWidget(this->ui->widget);
+        QPushButton* item = new QPushButton(container);
 
-        containerAttr.containerIndex = LeftMenuContainerList.size();
+        item->setGeometry(50, 30*(i+1) , 100, 30);
 
-        container->setGeometry(containerAttr.containerIndex*200, 100, 200, 500);
-        container->setStyleSheet("background-color:red;");
-
-        LeftMenuContainerList.push_back(container);
-    }
-
-    for (quint8 i=0; i<containerAttr.itemLength; i++)
-    {
-        if (isNewItem)
+        if (ccl)
         {
-
-            QPushButton* item = new QPushButton(LeftMenuContainerList[containerAttr.containerIndex]);
-
-            item->setGeometry(50, 30*(i+1) , 100, 30);
-
-            if (containerAttr.parentItemIndex >= 0)
-            {
-                item->setText(this->data->nodeMenuList[ \
-                              this->data->nodeMenuList[containerAttr.parentItemIndex] \
-                        .childNodeIndexList[i]].nodeName);
-            }
-            else
-            {
-                item->setText(this->data->nodeMenuList[i].nodeName);
-            }
-
-            item->setProperty("menuNodeIndex", i);
-
-            LeftMenuItemList.push_back(item);
+            menuNode = this->data->nodeMenuList[ccl]
+                    [this->data->nodeMenuList[ccl-1][cpii]
+                    .childNodeIndexList[i]];
+        }
+        else
+        {
+            menuNode = this->data->nodeMenuList[ccl][i];
         }
 
-        LeftMenuItemList[i]->show();
+        item->setText(menuNode.nodeName);
+
+        item->setProperty("menuNodeLevel", ccl);
+        item->setProperty("menuNodeIndex", menuNode.nodeIndex);
+        item->show();
+        LeftMenuItemList.push_back(item);
     }
 
-    LeftMenuContainerList[containerAttr.containerIndex]->show();
+    container->show();
+    this->LeftMenuContainerList.push_back(container);
+
 }
 
 // 设置TreeWidget的子项目的样式

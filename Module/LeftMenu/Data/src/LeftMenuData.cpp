@@ -27,26 +27,30 @@ LeftMenuData::~LeftMenuData()
 // 初始化主数据
 void LeftMenuData::mInitLeftMenuData()
 {
-    quint8 rowNum, colNum;
+    quint8 rowsNum, levelNum;
     SqliteControl sqlCtrl;
-    vector<QVariantList> rowArray;
+
+    vector<QVariantList> levelNumArray, menuNodeArray;
+    vector<LeftMenuNodeType> levelMenuNodeList;
 
     QVariantList rowData;
     LeftMenuNodeType LeftMenuNode;
 
-    colNum = nodeBottom;
-
     // 查询数据库, 获取原始数据
     sqlCtrl.connect(QDir::currentPath() + "/release/DataBase/Online-Debug-System.db");
-    sqlCtrl.query(QString(QUERY_LEFTMENU_NODELIST_CN_SQL), rowArray, colNum);
+    sqlCtrl.query(QString(QUERY_LEFTMENU_LEVELNUM_CN_SQL), levelNumArray, 1);
+    sqlCtrl.query(QString(QUERY_LEFTMENU_NODELIST_CN_SQL), menuNodeArray, nodeBottom);
     sqlCtrl.disconnect();
 
-    rowNum = rowArray.size();
+    levelNum = levelNumArray.back().back().toInt();
+    rowsNum = menuNodeArray.size();
+
+    nodeMenuList.insert(nodeMenuList.begin(), levelNum, levelMenuNodeList);
 
     // 依据原始数据格式化成LeftMenuNodeType数据，并装入MenuNodeList中
-    for (quint8 i=0; i<rowNum; i++)
+    for (quint8 i=0; i<rowsNum; i++)
     {
-        rowData = rowArray[i];
+        rowData = menuNodeArray[i];
         LeftMenuNode.nodeName = rowData[nodeName].toString();
         LeftMenuNode.nodeIcon = rowData[nodeIcon].toString();
         LeftMenuNode.nodeLevel = rowData[nodeLevel].toInt();
@@ -54,15 +58,13 @@ void LeftMenuData::mInitLeftMenuData()
         LeftMenuNode.nodeStatus = rowData[nodeStatus].toInt();
         LeftMenuNode.nodeParentIndex = rowData[nodeParentIndex].toInt();
 
-        qDebug() << LeftMenuNode.nodeName << LeftMenuNode.nodeParentIndex;
+        nodeMenuList[LeftMenuNode.nodeLevel].push_back(LeftMenuNode);
 
-        if (LeftMenuNode.nodeParentIndex >= 0)
+        if (LeftMenuNode.nodeLevel)
         {
-            nodeMenuList[LeftMenuNode.nodeParentIndex]
+            nodeMenuList[LeftMenuNode.nodeLevel - 1][LeftMenuNode.nodeParentIndex]
                 .childNodeIndexList
-                .push_back(i);
+                .push_back(LeftMenuNode.nodeIndex);
         }
-
-        nodeMenuList.push_back(LeftMenuNode);
     }
 }

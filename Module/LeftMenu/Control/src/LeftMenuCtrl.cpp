@@ -27,16 +27,16 @@ LeftMenuCtrl::~LeftMenuCtrl()
 // 槽注册方法
 void LeftMenuCtrl::eSlotFuncRegister()
 {
-    quint8 itemIndex = 0;
+    qint8 firstLevelNodeSize = this->data->nodeMenuList.front().size();;
 
     connect(this->ui->pushButton, SIGNAL(clicked()), this,
             SLOT(eLeftMenuPageSwitch()));
 
-    while (itemIndex < 5)
+    while (firstLevelNodeSize)
     {
-        QObject::connect(this->LeftMenuItemList[itemIndex], SIGNAL(clicked()),
+        QObject::connect(this->LeftMenuItemList[firstLevelNodeSize - 1], SIGNAL(clicked()),
                 this, SLOT(eLeftMenuItemClicked()));
-        itemIndex++;
+        firstLevelNodeSize --;
     }
 
 }
@@ -55,44 +55,44 @@ void LeftMenuCtrl::eLeftMenuPageSwitch()
 void LeftMenuCtrl::eLeftMenuItemClicked()
 {
     LeftMenuContainerAttribute containerAttr;
+    qint8 cl, mni, mci, itemLengthOld, itemLengthNew, childNodeSize;
+    QPushButton* item = qobject_cast<QPushButton*>(sender());
+    QVariant containerLevel = item->property("menuNodeLevel");
+    QVariant menuNodeIndex = item->property("menuNodeIndex");
+    QVariant menuContainerIndex  = item->property("menuContainerIndex");
 
-    QPushButton* thisItem = qobject_cast<QPushButton*>(sender());
-    QVariant containerIndex = thisItem->property("menuContainerIndex");
-    QVariant NodeIndex = thisItem->property("menuNodeIndex");
+    cl = containerLevel.toInt();
+    mni = menuNodeIndex.toInt();
+    mci = menuContainerIndex.toInt();
+    childNodeSize = this->data->nodeMenuList[cl][mni].childNodeIndexList.size();
 
-    quint8 childNum = this->data->nodeMenuList[NodeIndex.toInt()].childNodeIndexList.size();
-    quint8 itemLengthOld, itemLengthNew;
+    if (!childNodeSize) return;
 
-    if (!childNum)
+    if (menuContainerIndex.isValid())
     {
+        /*
+        在此处隐藏同级菜单容器及其子容器，pass
+        */
+
+        this->LeftMenuContainerList[mci]->show();
         return;
     }
 
-    if (!containerIndex.isValid())
-    {
-        thisItem->setProperty("menuContainerIndex", this->LeftMenuContainerList.size());
-        containerAttr.containerIndex = -1;
-    }
-    else
-    {
-        containerAttr.containerIndex = containerIndex.toInt();
-    }
+    item->setProperty("menuContainerIndex", this->LeftMenuContainerList.size());
+
+    containerAttr.containerLevel = cl + 1;
+    containerAttr.parentItemIndex = mni;
+    containerAttr.parentItemListSize = childNodeSize;
 
     itemLengthOld = this->LeftMenuItemList.size();
-
-    containerAttr.parentItemIndex = NodeIndex.toInt();
-    containerAttr.itemLength = childNum;
-
-
     LeftMenuView::fLoadLeftMenuContainer(containerAttr);
-
     itemLengthNew = this->LeftMenuItemList.size();
 
     while (itemLengthOld < itemLengthNew)
     {
         QObject::connect(this->LeftMenuItemList[itemLengthOld], SIGNAL(clicked()),
                 this, SLOT(eLeftMenuItemClicked()));
-        itemLengthOld++;
+        itemLengthOld ++;
     }
 
 }
