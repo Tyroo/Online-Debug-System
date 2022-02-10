@@ -16,6 +16,7 @@ LeftMenuView::LeftMenuView(QWidget *parent) : QWidget(parent)
 
     containerAttr.containerLevel = 0;
     containerAttr.parentItemIndex = -1;
+    containerAttr.containerOrdinate = 0;
     containerAttr.parentItemListSize = this->data->nodeMenuList.front().size();
 
     this->fAddStyleAndUi(LEFTMENU_QSS_FILEPATH);   // 添加样式文件和UI文件
@@ -52,23 +53,25 @@ void LeftMenuView::fAddStyleAndUi(char* qssPath)
 // 加载菜单容器
 void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerAttr)
 {
-    LeftMenuNodeType menuNode;
+    qint16 cco;
     qint8 i, ccl, cpii, cpils;
+    LeftMenuNodeType menuNode;
 
     ccl = containerAttr.containerLevel;
+    cco = containerAttr.containerOrdinate;
     cpii = containerAttr.parentItemIndex;
     cpils = containerAttr.parentItemListSize;
 
     QWidget* container = new QWidget(this->ui->widget);
-    container->setGeometry(ccl*200, 100, 200, 500);
-    container->setStyleSheet("background-color:red;");
-
+    container->setGeometry(ccl*100, cco, 100, 30*cpils);
+    container->setStyleSheet("background:rgba(50,50,50,0.5)");
+    container->setProperty("containerLevel", ccl);
 
     for (i=0; i<cpils; i++)
     {
         QPushButton* item = new QPushButton(container);
 
-        item->setGeometry(50, 30*(i+1) , 100, 30);
+        item->setGeometry(0, 30*i , 100, 30);
 
         if (ccl)
         {
@@ -82,7 +85,6 @@ void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerA
         }
 
         item->setText(menuNode.nodeName);
-
         item->setProperty("menuNodeLevel", ccl);
         item->setProperty("menuNodeIndex", menuNode.nodeIndex);
         item->show();

@@ -21,7 +21,7 @@ typedef struct _LeftMenuNodeType
     QString nodeIcon;       // 节点图标地址
     QString nodeName;           // 节点名称
     qint8 nodeStatus:2;         // 节点状态（0禁用~1启用）
-    qint8 nodeLevel:4;          // 当前节点级别（0~N）
+    qint8 nodeLevel:4;          // 当前节点级别（0~N）S
     qint8 nodeIndex:5;          // 当前节点索引（0~N）
     qint8 nodeParentIndex:5;    // 父节点索引（-1~N）
     vector<qint8> childNodeIndexList;    // 子节点索引列表[1,2,3,...,N]

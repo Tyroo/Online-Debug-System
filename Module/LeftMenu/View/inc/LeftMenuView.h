@@ -16,6 +16,7 @@ typedef struct _LeftMenuContainerAttribute
     qint8 containerLevel;
     qint8 parentItemIndex;
     qint8 parentItemListSize;
+    qint16 containerOrdinate;
 } LeftMenuContainerAttribute;
 
 class LeftMenuView : public QWidget
