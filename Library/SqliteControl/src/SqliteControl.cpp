@@ -1,6 +1,35 @@
 #include "Library/SqliteControl/inc/SqliteControl.h"
 
+#ifdef USE_ACCESSDB
+void SqliteControl::connect(DataBaseConfig& dbConfig)
+{
+    const QString dataBase(QString("DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=%1;Uid=%2;Pwd=%3")
+                              .arg(dbConfig.dataBaseName)
+                              .arg(dbConfig.dataBaseUsername)
+                              .arg(dbConfig.dataBasePassword));
+    this->_dataBase = QSqlDatabase::addDatabase("QODBC");
+    this->_dataBase.setDatabaseName(dataBase);
+    this->_query = QSqlQuery(this->_dataBase);
 
+    if (!this->_dataBase.isValid())
+    {
+        qDebug() << "fail to connect MS Access:" << this->_dataBase.lastError().text();
+        this->_status =  false;
+        return;
+    }
+
+    if (!this->_dataBase.open())
+    {
+        qDebug() << "fail to connect MS Access:" << this->_dataBase.lastError().text();
+        this->_status =  false;
+        return;
+    }
+
+    this->_status = true;
+}
+#endif
+
+#ifdef USE_SQLITEDB
 void SqliteControl::connect(QString dataBase)
 {
 
@@ -17,7 +46,7 @@ void SqliteControl::connect(QString dataBase)
 
     this->_status = true;
 }
-
+#endif
 
 void SqliteControl::query(QString sqlstr, vector<QVariantList>& rowArray, quint8 keyNum)
 {

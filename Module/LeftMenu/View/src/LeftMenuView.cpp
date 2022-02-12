@@ -15,14 +15,14 @@ LeftMenuView::LeftMenuView(QWidget *parent) : QWidget(parent)
     ui = new Ui::LeftMenuView;                     // 新建主视图对象
 
     containerAttr.containerLevel = 0;
-    containerAttr.parentItemIndex = -1;
+    containerAttr.parentItemIndex = 0;
     containerAttr.containerOrdinate = 0;
     containerAttr.parentItemListSize = this->data->nodeMenuList.front().size();
 
     this->fAddStyleAndUi(LEFTMENU_QSS_FILEPATH);   // 添加样式文件和UI文件
 
     this->setAttribute(Qt::WA_DeleteOnClose, true); // 关闭窗体后销毁窗体对象
-    this->fLoadLeftMenuContainer(containerAttr);
+    this->fCreateLeftMenuContainer(containerAttr);
 }
 
 // 主视图类析构方法，销毁主视图对象
@@ -30,7 +30,7 @@ LeftMenuView::~LeftMenuView()
 { 
     delete (this->ui);
     delete (this->data);
-    this->fUnLoadLeftMenuContainer();
+    this->fClearLeftMenuContainer();
 }
 
 /*------------------------------------------------------------
@@ -51,10 +51,10 @@ void LeftMenuView::fAddStyleAndUi(char* qssPath)
 }
 
 // 加载菜单容器
-void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerAttr)
+void LeftMenuView::fCreateLeftMenuContainer(LeftMenuContainerAttribute& containerAttr)
 {
     qint16 cco;
-    qint8 i, ccl, cpii, cpils;
+    qint8 i, ccl, cpii, cpils, mpni;
     LeftMenuNodeType menuNode;
 
     ccl = containerAttr.containerLevel;
@@ -62,10 +62,14 @@ void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerA
     cpii = containerAttr.parentItemIndex;
     cpils = containerAttr.parentItemListSize;
 
+    if (ccl)
+        mpni = LeftMenuItemList[cpii]->property("menuNodeIndex").toInt();
+
     QWidget* container = new QWidget(this->ui->widget);
     container->setGeometry(ccl*100, cco, 100, 30*cpils);
-    container->setStyleSheet("background:rgba(50,50,50,0.5)");
+//    container->setStyleSheet("background:rgba(255,255,255,0.01)");
     container->setProperty("containerLevel", ccl);
+    container->setProperty("parentItemIndex", cpii);
 
     for (i=0; i<cpils; i++)
     {
@@ -76,7 +80,7 @@ void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerA
         if (ccl)
         {
             menuNode = this->data->nodeMenuList[ccl]
-                    [this->data->nodeMenuList[ccl-1][cpii]
+                    [this->data->nodeMenuList[ccl-1][mpni]
                     .childNodeIndexList[i]];
         }
         else
@@ -87,17 +91,16 @@ void LeftMenuView::fLoadLeftMenuContainer(LeftMenuContainerAttribute& containerA
         item->setText(menuNode.nodeName);
         item->setProperty("menuNodeLevel", ccl);
         item->setProperty("menuNodeIndex", menuNode.nodeIndex);
+        item->setProperty("itemIndex", LeftMenuItemList.size());
         item->show();
         LeftMenuItemList.push_back(item);
     }
 
-    container->show();
     this->LeftMenuContainerList.push_back(container);
-
 }
 
 // 设置TreeWidget的子项目的样式
-void LeftMenuView::fUnLoadLeftMenuContainer()
+void LeftMenuView::fClearLeftMenuContainer()
 {
     quint8 containerSize, itemSize, i;
 
@@ -124,4 +127,16 @@ void LeftMenuView::fUnLoadLeftMenuContainer()
 
     LeftMenuItemList.clear();
     LeftMenuContainerList.clear();
+}
+
+void LeftMenuView::fShowLeftMenuContainer(QWidget* container)
+{
+    QPropertyAnimation* animation = new QPropertyAnimation(
+                    container, "size");
+    animation->setDuration(200);
+
+    animation->setStartValue(QSize(0,0));
+    animation->setEndValue(container->size());
+    container->show();
+    animation->start();
 }

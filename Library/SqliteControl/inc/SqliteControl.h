@@ -10,6 +10,17 @@
 
 using namespace std;
 
+#ifndef USE_SQLITEDB
+    #define USE_SQLITEDB
+#endif
+
+typedef struct
+{
+    QString dataBaseName;
+    QString dataBaseUsername;
+    QString dataBasePassword;
+} DataBaseConfig;
+
 
 class SqliteControl
 {
@@ -17,11 +28,21 @@ class SqliteControl
 public:
 
     /*
+    * @说明：连接Access数据库
+    * @参数：dataBase，SQLite的.db文件的路径
+    * @返回值：无
+    */
+#ifdef USE_ACCESSDB
+    void connect(DataBaseConfig& DBConfig);
+#endif
+    /*
     * @说明：连接SQLite数据库
     * @参数：dataBase，SQLite的.db文件的路径
     * @返回值：无
     */
+#ifdef USE_SQLITEDB
     void connect(QString dataBase);
+#endif
 
     /*
     * @说明：查询SQLite数据库中的数据，此为模板函数，调用时需要根据返回数据设置类型

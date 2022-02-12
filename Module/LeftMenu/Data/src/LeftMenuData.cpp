@@ -28,6 +28,7 @@ LeftMenuData::~LeftMenuData()
 void LeftMenuData::mInitLeftMenuData()
 {
     quint8 rowsNum, levelNum;
+    DataBaseConfig dbConfig;
     SqliteControl sqlCtrl;
 
     vector<QVariantList> levelNumArray, menuNodeArray;
@@ -36,7 +37,12 @@ void LeftMenuData::mInitLeftMenuData()
     QVariantList rowData;
     LeftMenuNodeType LeftMenuNode;
 
+//    dbConfig.dataBaseName = QDir::currentPath() + "/release/DataBase/Online-Debug-System.accdb";
+//    dbConfig.dataBaseUsername = "ZJL";
+//    dbConfig.dataBasePassword = "123456";
+
     // 查询数据库, 获取原始数据
+//    sqlCtrl.connect(dbConfig);
     sqlCtrl.connect(QDir::currentPath() + "/release/DataBase/Online-Debug-System.db");
     sqlCtrl.query(QString(QUERY_LEFTMENU_LEVELNUM_CN_SQL), levelNumArray, 1);
     sqlCtrl.query(QString(QUERY_LEFTMENU_NODELIST_CN_SQL), menuNodeArray, nodeBottom);

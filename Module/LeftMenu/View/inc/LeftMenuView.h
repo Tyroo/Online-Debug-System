@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <vector>
 #include <QMenu>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
 
 #include "ui_LeftMenuView.h"
 #include "./Module/LeftMenu/Data/inc/LeftMenuData.h"
@@ -51,7 +53,14 @@ public:
     * @参数：无
     * @返回值：无
     */
-    void fLoadLeftMenuContainer(LeftMenuContainerAttribute& Container);
+    void fCreateLeftMenuContainer(LeftMenuContainerAttribute& Container);
+
+    /*
+    * @说明：显示菜单容器
+    * @参数：无
+    * @返回值：无
+    */
+    void fShowLeftMenuContainer(QWidget* container);
 
 private:
 
@@ -67,7 +76,7 @@ private:
     * @参数：无
     * @返回值：无
     */
-    void fUnLoadLeftMenuContainer(void);
+    void fClearLeftMenuContainer(void);
 
 };
 #endif // LEFTMENUVIEW_H
