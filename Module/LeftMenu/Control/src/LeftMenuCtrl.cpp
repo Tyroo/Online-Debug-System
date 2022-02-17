@@ -7,8 +7,10 @@
 --------------------------------------------------------------*/
 
 // 主槽类构造方法
-LeftMenuCtrl::LeftMenuCtrl()
+LeftMenuCtrl::LeftMenuCtrl(QWidget* parent)
 {
+    this->setParent(parent);
+    parent->installEventFilter(this);
     this->eSlotFuncRegister();
 }
 
@@ -29,8 +31,8 @@ void LeftMenuCtrl::eSlotFuncRegister()
 {
     qint8 firstLevelNodeSize = this->data->nodeMenuList.front().size();;
 
-    connect(this->ui->pushButton, SIGNAL(clicked()), this,
-        SLOT(eLeftMenuPageSwitch()));
+//    connect(this->ui->pushButton, SIGNAL(clicked()), this,
+//        SLOT(eLeftMenuPageSwitch()));
 
     while (firstLevelNodeSize)
     {
@@ -44,22 +46,20 @@ void LeftMenuCtrl::eSlotFuncRegister()
 
 void LeftMenuCtrl::eLeftMenuPageSwitch()
 {
-    qint8 index = this->ui->stackedWidget->currentIndex();
+//    qint8 index = this->ui->stackedWidget->currentIndex();
 
-    index = (index + 1) % 2;
+//    index = (index + 1) % 2;
 
-    this->ui->stackedWidget->setCurrentIndex(index);
+//    this->ui->stackedWidget->setCurrentIndex(index);
 }
 
 // 菜单项单击响应事件
 void LeftMenuCtrl::eLeftMenuItemClicked()
 {
-    static qint8 clo = -1;
-
     bool isExtend = true;
-    qint8 cl, cs, value, itemLengthOld, itemLengthNew, childNodeSize, containerSize;
+    qint8 cl, value, itemLengthOld, itemLengthNew, childNodeSize, containerSize;
     QWidget* container = nullptr;
-    LeftMenuContainerAttribute containerAttr;
+    ContainerAttribute containerAttr;
     QPushButton* item = qobject_cast<QPushButton*>(sender());
     QVariant containerLevel = item->property("menuNodeLevel");
     QVariant menuNodeIndex = item->property("menuNodeIndex");
@@ -71,28 +71,16 @@ void LeftMenuCtrl::eLeftMenuItemClicked()
     childNodeSize = this->data->nodeMenuList[cl][value].childNodeIndexList.size();
 
     // 隐藏同级容器及其子容器
-    for (char i = 0; i<containerSize; i++)
-    {
-        cs = LeftMenuContainerList[i]->property("containerLevel").toInt();
-
-        if (cs > cl)
-        {
-            LeftMenuContainerList[i]->hide();
-            value = LeftMenuContainerList[i]->property("parentItemIndex").toInt();
-            // 设置节点收起时的样式
-            this->LeftMenuItemList[value]->setStyleSheet("background-color:white");
-        }
-    }
+    fHideLeftMenuContainer(cl);
 
     // 如果该节点无子节点，则不再往下执行
-    if (!childNodeSize) return;
-    if (clo >= cl) { isExtend = false; }
-    if (!isExtend) { clo = -1; return; }
-    else { clo = cl; }
+    if (!childNodeSize) { isExtend = false; }
+    if (activecontainerLevel >= cl) { isExtend = false; }
+    if (!isExtend) { activecontainerLevel = cl - 1; return; }
+    else { activecontainerLevel = cl; }
 
     // 设置节点展开时的样式
     item->setStyleSheet("background-color:red");
-
 
     // 如果该节点已经生成过容器，则不再重新生成，直接显示
     if (menuContainerIndex.isValid())
@@ -100,6 +88,7 @@ void LeftMenuCtrl::eLeftMenuItemClicked()
         value = menuContainerIndex.toInt();
         container = this->LeftMenuContainerList[value];
         LeftMenuView::fShowLeftMenuContainer(container);    // 显示子菜单容器
+        // Qt::ActiveWindowFocusReason
         return;
     }
 
@@ -113,12 +102,11 @@ void LeftMenuCtrl::eLeftMenuItemClicked()
     containerAttr.containerOrdinate = item->y() + item->parent()->property("y").toInt();
 
     itemLengthOld = this->LeftMenuItemList.size();
-    LeftMenuView::fCreateLeftMenuContainer(containerAttr);
+    LeftMenuView::fCreateLeftMenuContainer(containerAttr, this->parentWidget());
     itemLengthNew = this->LeftMenuItemList.size();
 
     container = this->LeftMenuContainerList[containerSize];
     LeftMenuView::fShowLeftMenuContainer(container);    // 显示子菜单容器
-
 
     // 绑定子节点的点击事件
     while (itemLengthOld < itemLengthNew)

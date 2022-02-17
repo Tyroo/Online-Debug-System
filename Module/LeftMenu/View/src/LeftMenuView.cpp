@@ -9,7 +9,7 @@
 // 主视图类构造方法，初始化主视图对象
 LeftMenuView::LeftMenuView(QWidget *parent) : QWidget(parent)
 {
-    LeftMenuContainerAttribute containerAttr;
+    ContainerAttribute containerAttr;
 
     data = new LeftMenuData;                       // 新建槽对象
     ui = new Ui::LeftMenuView;                     // 新建主视图对象
@@ -20,9 +20,9 @@ LeftMenuView::LeftMenuView(QWidget *parent) : QWidget(parent)
     containerAttr.parentItemListSize = this->data->nodeMenuList.front().size();
 
     this->fAddStyleAndUi(LEFTMENU_QSS_FILEPATH);   // 添加样式文件和UI文件
-
     this->setAttribute(Qt::WA_DeleteOnClose, true); // 关闭窗体后销毁窗体对象
-    this->fCreateLeftMenuContainer(containerAttr);
+    this->fCreateLeftMenuContainer(containerAttr, this);
+    this->setFocus();
 }
 
 // 主视图类析构方法，销毁主视图对象
@@ -50,8 +50,16 @@ void LeftMenuView::fAddStyleAndUi(char* qssPath)
     setStyleSheet(file.readAll());  // 设置QSS样式
 }
 
+void LeftMenuView::fSetLeftMenuStyle()
+{
+    this->setGeometry(200, 600, 0, 0);
+//    this->ui->widget->setGeometry(200, 600, 0, 0);
+    this->setStyleSheet("background-color:red;");
+    this->setFocus();
+}
+
 // 加载菜单容器
-void LeftMenuView::fCreateLeftMenuContainer(LeftMenuContainerAttribute& containerAttr)
+void LeftMenuView::fCreateLeftMenuContainer(ContainerAttribute& containerAttr, QWidget* parent)
 {
     qint16 cco;
     qint8 i, ccl, cpii, cpils, mpni;
@@ -62,14 +70,16 @@ void LeftMenuView::fCreateLeftMenuContainer(LeftMenuContainerAttribute& containe
     cpii = containerAttr.parentItemIndex;
     cpils = containerAttr.parentItemListSize;
 
-    if (ccl)
-        mpni = LeftMenuItemList[cpii]->property("menuNodeIndex").toInt();
-
-    QWidget* container = new QWidget(this->ui->widget);
+    QWidget* container = new QWidget(parent);
+    container->activateWindow();
     container->setGeometry(ccl*100, cco, 100, 30*cpils);
-//    container->setStyleSheet("background:rgba(255,255,255,0.01)");
     container->setProperty("containerLevel", ccl);
     container->setProperty("parentItemIndex", cpii);
+
+    if (ccl)
+    {
+        mpni = LeftMenuItemList[cpii]->property("menuNodeIndex").toInt();
+    }
 
     for (i=0; i<cpils; i++)
     {
@@ -92,12 +102,38 @@ void LeftMenuView::fCreateLeftMenuContainer(LeftMenuContainerAttribute& containe
         item->setProperty("menuNodeLevel", ccl);
         item->setProperty("menuNodeIndex", menuNode.nodeIndex);
         item->setProperty("itemIndex", LeftMenuItemList.size());
-        item->show();
         LeftMenuItemList.push_back(item);
     }
 
     this->LeftMenuContainerList.push_back(container);
 }
+
+bool LeftMenuView::eventFilter(QObject *watched, QEvent *event)
+{
+    bool hasEvent;
+
+    switch (event->type())
+    {
+        case QEvent::MouseButtonPress:
+            hasEvent = true;
+            break;
+//        case QEvent::FocusOut:
+//            hasEvent = true;
+//            break;
+        default:
+            hasEvent = false;
+    }
+
+    if (hasEvent && watched != this)
+    {
+        // 隐藏同级容器及其子容器
+        fHideLeftMenuContainer(0);
+        activecontainerLevel = -1;
+    }
+
+    return (QWidget::eventFilter(watched, event));
+}
+
 
 // 设置TreeWidget的子项目的样式
 void LeftMenuView::fClearLeftMenuContainer()
@@ -129,6 +165,7 @@ void LeftMenuView::fClearLeftMenuContainer()
     LeftMenuContainerList.clear();
 }
 
+// 显示子菜单容器
 void LeftMenuView::fShowLeftMenuContainer(QWidget* container)
 {
     QPropertyAnimation* animation = new QPropertyAnimation(
@@ -139,4 +176,24 @@ void LeftMenuView::fShowLeftMenuContainer(QWidget* container)
     animation->setEndValue(container->size());
     container->show();
     animation->start();
+}
+
+void LeftMenuView::fHideLeftMenuContainer(qint8 startLevel)
+{
+    qint8 ContainerLevel, parentIndex, containerSize;
+
+    containerSize = this->LeftMenuContainerList.size();
+
+    for (char i = 0; i<containerSize; i++)
+    {
+        ContainerLevel = LeftMenuContainerList[i]->property("containerLevel").toInt();
+
+        if (ContainerLevel > startLevel)
+        {
+            LeftMenuContainerList[i]->hide();
+            parentIndex = LeftMenuContainerList[i]->property("parentItemIndex").toInt();
+            // 设置节点收起时的样式
+            this->LeftMenuItemList[parentIndex]->setStyleSheet("background-color:white");
+        }
+    }
 }

@@ -20,7 +20,7 @@ public:
     * @参数：无
     * @返回值：无
     */
-    LeftMenuCtrl();
+    LeftMenuCtrl(QWidget* parent = nullptr);
 
     /*
     * @说明：主槽类析构函数
@@ -42,6 +42,10 @@ private slots:
 
     // 菜单项单击响应事件
     void eLeftMenuItemClicked(void);
+
+private:
+
+
 
 
 };

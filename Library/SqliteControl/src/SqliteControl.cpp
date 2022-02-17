@@ -3,11 +3,12 @@
 #ifdef USE_ACCESSDB
 void SqliteControl::connect(DataBaseConfig& dbConfig)
 {
-    const QString dataBase(QString("DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=%1;Uid=%2;Pwd=%3")
+    this->_dataBase = QSqlDatabase::addDatabase("QODBC");
+    QString dataBase(QString("DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=%1;Uid=%2;Pwd=%3;")
                               .arg(dbConfig.dataBaseName)
                               .arg(dbConfig.dataBaseUsername)
                               .arg(dbConfig.dataBasePassword));
-    this->_dataBase = QSqlDatabase::addDatabase("QODBC");
+    this->_dataBase.setConnectOptions("SQL_ATTR_ODBC_VERSION=SQL_OV_ODBC3");
     this->_dataBase.setDatabaseName(dataBase);
     this->_query = QSqlQuery(this->_dataBase);
 

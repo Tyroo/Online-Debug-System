@@ -10,6 +10,8 @@
 MainCtrl::MainCtrl()
 {
     // pass
+    this->leftMenu_ctrl = new LeftMenuCtrl(this);
+    this->leftMenu_ctrl->show();
     this->eSlotFuncRegister();
 }
 
@@ -36,7 +38,7 @@ void MainCtrl::eSlotFuncRegister()
     QObject::connect(ui->pushButton, SIGNAL(clicked()),     // 连接登录按钮槽
                      this, SLOT(eClickUserLogin()));
 
-    QObject::connect(ui->pushButton_2, SIGNAL(clicked()),     // 连接登录按钮槽
+    QObject::connect(ui->pushButton_2, SIGNAL(clicked()),     // 连接菜单按钮槽
                      this, SLOT(eClickPushButton_2()));
 }
 
@@ -73,8 +75,7 @@ void MainCtrl::eLoginFinish(qint32 id,  LoginCtrl* login_ctrl)
 
 void MainCtrl::eClickPushButton_2()
 {
-    this->leftMenu_ctrl = new LeftMenuCtrl;
-    this->leftMenu_ctrl->show();
+
 }
 
 

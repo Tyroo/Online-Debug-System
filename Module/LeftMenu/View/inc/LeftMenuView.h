@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QWidget>
+#include <QPushButton>
 #include <vector>
 #include <QMenu>
 #include <QPropertyAnimation>
@@ -13,13 +14,13 @@
 
 #define LEFTMENU_QSS_FILEPATH   ((char*)":/QSS/LeftMenu/LeftMenuView.qss")   // QSS文件路径
 
-typedef struct _LeftMenuContainerAttribute
+typedef struct _ContainerAttribute
 {
     qint8 containerLevel;
     qint8 parentItemIndex;
     qint8 parentItemListSize;
     qint16 containerOrdinate;
-} LeftMenuContainerAttribute;
+} ContainerAttribute;
 
 class LeftMenuView : public QWidget
 {
@@ -30,6 +31,7 @@ public:
     LeftMenuData* data;
     Ui::LeftMenuView* ui;
     QMenu* popupMenu;
+    qint8 activecontainerLevel = -1;
 
     vector<QPushButton*> LeftMenuItemList;
     vector<QWidget*> LeftMenuContainerList;
@@ -53,7 +55,7 @@ public:
     * @参数：无
     * @返回值：无
     */
-    void fCreateLeftMenuContainer(LeftMenuContainerAttribute& Container);
+    void fCreateLeftMenuContainer(ContainerAttribute& Container, QWidget* parent);
 
     /*
     * @说明：显示菜单容器
@@ -61,6 +63,10 @@ public:
     * @返回值：无
     */
     void fShowLeftMenuContainer(QWidget* container);
+
+    void fHideLeftMenuContainer(qint8 startIndex);
+
+    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
 
@@ -77,6 +83,8 @@ private:
     * @返回值：无
     */
     void fClearLeftMenuContainer(void);
+
+    void fSetLeftMenuStyle(void);
 
 };
 #endif // LEFTMENUVIEW_H
