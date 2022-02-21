@@ -1,4 +1,4 @@
-QT       += core gui charts network sql
+QT       += core gui charts network sql serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
@@ -11,6 +11,7 @@ CONFIG += c++11
 
 SOURCES += \
     Library/HttpxRequest/src/HttpxRequest.cpp \
+    Library/SericalPort/src/SericalPort.cpp \
     Library/SqliteControl/src/SqliteControl.cpp \
     Module/LeftMenu/Data/src/LeftMenuData.cpp \
     Module/LeftMenu/View/src/LeftMenuView.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     Library/HttpxRequest/inc/HttpxRequest.h \
+    Library/SericalPort/inc/SericalPort.h \
     Library/SqliteControl/inc/SqliteControl.h \
     Module/LeftMenu/Data/inc/LeftMenuData.h \
     Module/LeftMenu/View/inc/LeftMenuView.h \
